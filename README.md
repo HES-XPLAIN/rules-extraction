@@ -2,6 +2,9 @@
 
 Rules extraction for eXplainable AI
 
+* [Documentation](https://hes-xplain.github.io/rules-extraction/docs/)
+* [Coverage](https://hes-xplain.github.io/rules-extraction/cov/)
+
 ## Contribution
 
 ### Install Python and Poetry
