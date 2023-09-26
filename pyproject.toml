@@ -24,8 +24,25 @@ classifiers=[
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.8.1"
+pre-commit = "^3.4.0"
 
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.1.0"
+black = "^23.9.1"
+
+[tool.black]
+line-length = 88
+exclude = '''
+/(
+    \.git
+  | \.idea
+)/
+'''
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
 
 [build-system]
 requires = ["poetry-core"]
