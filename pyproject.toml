@@ -5,6 +5,23 @@ description = "Rules extraction for eXplainable AI"
 authors = ["Arthur Babey <arthur.babey@heig-vd.ch>"]
 license = "3-Clause BSD License"
 readme = "README.md"
+homepage = "https://hes-xplain.github.io/"
+repository = "https://github.com/HES-XPLAIN/mlxplain"
+keywords = ["machine learning", "xai"]
+classifiers=[
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: POSIX',
+    'Operating System :: Unix',
+    'Operating System :: MacOS',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Education',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: BSD License',
+    'Topic :: Scientific/Engineering',
+    'Topic :: Scientific/Engineering :: Mathematics',
+    'Topic :: Scientific/Engineering :: Artificial Intelligence',
+    'Programming Language :: Python :: 3',
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
