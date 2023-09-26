@@ -1,4 +1,4 @@
-# Rules extraction ![Python checks](https://github.com/HES-XPLAIN/rules-extraction/actions/workflows/tests.yml/badge.svg)
+# Rules extraction ![Python checks](https://github.com/HES-XPLAIN/rules-extraction/actions/workflows/build.yml/badge.svg)
 
 Rules extraction for eXplainable AI
 
