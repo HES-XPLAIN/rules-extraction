@@ -26,6 +26,8 @@ packages = [{include = "rules_extraction"}]
 
 [tool.poetry.dependencies]
 python = "^3.8.1"
+numpy = "^1.17.4"
+pandas = "2.0.3"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.4.0"
