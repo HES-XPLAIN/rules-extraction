@@ -46,3 +46,5 @@ pre-commit run --all-files
 ## Release
 
 To publish the package on [PyPI](https://pypi.org/project/rules-extraction/), refer to [RELEASE](RELEASE.md).
+
+TADA
