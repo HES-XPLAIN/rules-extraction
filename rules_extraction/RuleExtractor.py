@@ -62,11 +62,6 @@ class DataProcessor:
         return final_df
 
 
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.tree import _tree
-
 class RandomForestTrainer:
     """Handles training and rule extraction from a random forest classifier."""
     
