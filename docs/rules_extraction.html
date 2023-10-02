@@ -47,11 +47,26 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">rules-extraction</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">rules_extraction package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rules-extraction-ruleextractor-module">rules_extraction.RuleExtractor module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rules-extraction-data-processor-module">rules_extraction.data_processor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-rules_extraction.hello">rules_extraction.hello module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#rules_extraction.hello.hello_name"><code class="docutils literal notranslate"><span class="pre">hello_name()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#rules_extraction.hello.hello_world"><code class="docutils literal notranslate"><span class="pre">hello_world()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#module-rules_extraction.random_forest_trainer">rules_extraction.random_forest_trainer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rules_extraction.random_forest_trainer.RandomForestTrainer"><code class="docutils literal notranslate"><span class="pre">RandomForestTrainer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-rules_extraction.result_plotter">rules_extraction.result_plotter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rules_extraction.result_plotter.ResultPlotter"><code class="docutils literal notranslate"><span class="pre">ResultPlotter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-rules_extraction.rule_handler">rules_extraction.rule_handler module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rules_extraction.rule_handler.RuleHandler"><code class="docutils literal notranslate"><span class="pre">RuleHandler</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-rules_extraction.utils">rules_extraction.utils module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-rules_extraction">Module contents</a></li>
 </ul>
 </li>
@@ -90,6 +105,12 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
+<section id="rules-extraction-ruleextractor-module">
+<h2>rules_extraction.RuleExtractor module<a class="headerlink" href="#rules-extraction-ruleextractor-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="rules-extraction-data-processor-module">
+<h2>rules_extraction.data_processor module<a class="headerlink" href="#rules-extraction-data-processor-module" title="Permalink to this heading"></a></h2>
+</section>
 <section id="module-rules_extraction.hello">
 <span id="rules-extraction-hello-module"></span><h2>rules_extraction.hello module<a class="headerlink" href="#module-rules_extraction.hello" title="Permalink to this heading"></a></h2>
 <dl class="py function">
@@ -117,6 +138,305 @@
 </dl>
 </dd></dl>
 
+</section>
+<section id="module-rules_extraction.random_forest_trainer">
+<span id="rules-extraction-random-forest-trainer-module"></span><h2>rules_extraction.random_forest_trainer module<a class="headerlink" href="#module-rules_extraction.random_forest_trainer" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rules_extraction.random_forest_trainer.RandomForestTrainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rules_extraction.random_forest_trainer.</span></span><span class="sig-name descname"><span class="pre">RandomForestTrainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.random_forest_trainer.RandomForestTrainer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Handles training and rule extraction from a random forest classifier.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.random_forest_trainer.RandomForestTrainer.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.random_forest_trainer.RandomForestTrainer.evaluate" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluate the model’s accuracy on a test set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_test</strong> (<em>array-like</em>) – Test features.</p></li>
+<li><p><strong>y_test</strong> (<em>array-like</em>) – True labels for X_test.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Accuracy of the model on the test set.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.random_forest_trainer.RandomForestTrainer.extract_all_rules">
+<span class="sig-name descname"><span class="pre">extract_all_rules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.random_forest_trainer.RandomForestTrainer.extract_all_rules" title="Permalink to this definition"></a></dt>
+<dd><p>Extract rules from all the trees in the random forest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of all extracted rules.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>AssertionError</strong> – If model has not been trained yet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.random_forest_trainer.RandomForestTrainer.extract_rules">
+<span class="sig-name descname"><span class="pre">extract_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.random_forest_trainer.RandomForestTrainer.extract_rules" title="Permalink to this definition"></a></dt>
+<dd><p>Extract rules from a single decision tree.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.random_forest_trainer.RandomForestTrainer.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.random_forest_trainer.RandomForestTrainer.fit" title="Permalink to this definition"></a></dt>
+<dd><p>Train a random forest classifier on the dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – Arguments to pass to train_test_split and RandomForestClassifier.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.random_forest_trainer.RandomForestTrainer.recurse">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">recurse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_rule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.random_forest_trainer.RandomForestTrainer.recurse" title="Permalink to this definition"></a></dt>
+<dd><p>Recursively traverse the tree to extract rules.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rules_extraction.result_plotter">
+<span id="rules-extraction-result-plotter-module"></span><h2>rules_extraction.result_plotter module<a class="headerlink" href="#module-rules_extraction.result_plotter" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rules_extraction.result_plotter.ResultPlotter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rules_extraction.result_plotter.</span></span><span class="sig-name descname"><span class="pre">ResultPlotter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.result_plotter.ResultPlotter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.result_plotter.ResultPlotter.plot_results">
+<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.result_plotter.ResultPlotter.plot_results" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rules_extraction.rule_handler">
+<span id="rules-extraction-rule-handler-module"></span><h2>rules_extraction.rule_handler module<a class="headerlink" href="#module-rules_extraction.rule_handler" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rules_extraction.rule_handler.</span></span><span class="sig-name descname"><span class="pre">RuleHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Handler for managing, applying, and evaluating rules extracted from a Random Forest model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rules</strong> (<em>list</em>) – The list of rules. Each rule should be a list or a string.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.data_to_rules">
+<span class="sig-name descname"><span class="pre">data_to_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_arr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.data_to_rules" title="Permalink to this definition"></a></dt>
+<dd><p>Transform a dataset based on the set of rules, creating binary features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X_arr</strong> (<em>numpy.ndarray</em>) – The input data array.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The transformed data array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.evaluate_perceptron">
+<span class="sig-name descname"><span class="pre">evaluate_perceptron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.evaluate_perceptron" title="Permalink to this definition"></a></dt>
+<dd><p>Evaluate the Perceptron model on test data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_test</strong> (<em>numpy.ndarray</em>) – The input test data.</p></li>
+<li><p><strong>y_test</strong> (<em>numpy.ndarray</em>) – The target values for test data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The accuracy of the Perceptron model on the test data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.fit_perceptron">
+<span class="sig-name descname"><span class="pre">fit_perceptron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">penalty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'l1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.fit_perceptron" title="Permalink to this definition"></a></dt>
+<dd><p>Fit a Perceptron model to the training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>numpy.ndarray</em>) – The input training data.</p></li>
+<li><p><strong>y_train</strong> (<em>numpy.ndarray</em>) – The target values for training data.</p></li>
+<li><p><strong>penalty</strong> (<em>str</em>) – The penalty to be used by the Perceptron model (default is ‘l1’).</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – Constant that multiplies the regularization term (default is 0.01).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.is_rule">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.is_rule" title="Permalink to this definition"></a></dt>
+<dd><p>Check whether a data point satisfies a particular rule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_point</strong> (<em>numpy.ndarray</em>) – The data point to be checked.</p></li>
+<li><p><strong>rule</strong> (<em>list</em>) – The rule against which to check the data point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the data point satisfies the rule, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.load" title="Permalink to this definition"></a></dt>
+<dd><p>Load rules from a file and update self.rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – The path of the file to load rules from.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.load_rules">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.load_rules" title="Permalink to this definition"></a></dt>
+<dd><p>Load rules from a file without altering self.rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – The path of the file to load rules from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded rules.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.ops">
+<span class="sig-name descname"><span class="pre">ops</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'!=':</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">ne&gt;,</span> <span class="pre">'&lt;':</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">lt&gt;,</span> <span class="pre">'&lt;=':</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">le&gt;,</span> <span class="pre">'==':</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">eq&gt;,</span> <span class="pre">'&gt;':</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">gt&gt;,</span> <span class="pre">'&gt;=':</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">ge&gt;}</span></em><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.ops" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_rules</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Classifies data points using the specified rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>ndarray</em><em> or </em><em>1D array-like</em>) – The data to be classified.</p></li>
+<li><p><strong>top_rules</strong> (<em>list</em><em> of </em><em>tuples</em>) – The rules to be used for classification.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The predicted labels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.rank_rules">
+<span class="sig-name descname"><span class="pre">rank_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.rank_rules" title="Permalink to this definition"></a></dt>
+<dd><p>Rank the rules based on the absolute values of Perceptron coefficients.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>N</strong> (<em>int</em><em> or </em><em>None</em>) – Optional parameter to return the top n rules.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tuples containing rule and its absolute importance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the perceptron has not been trained.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.save" title="Permalink to this definition"></a></dt>
+<dd><p>Save rules to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – The path of the file to save rules to.</p></li>
+<li><p><strong>rules</strong> – The rules to save. If None, saves self.rules. Optional, default is None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.save_rules">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.save_rules" title="Permalink to this definition"></a></dt>
+<dd><p>Save rules to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rules</strong> – The rules to save.</p></li>
+<li><p><strong>path</strong> – The path of the file to save rules to.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.score">
+<span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_rules</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.score" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the accuracy of classification on a given dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em><em> or </em><em>DataFrame</em>) – The feature matrix.</p></li>
+<li><p><strong>y</strong> (<em>1D array-like</em>) – The true labels.</p></li>
+<li><p><strong>top_rules</strong> (<em>list</em><em> of </em><em>tuples</em><em> or </em><em>None</em>) – The rules to be used for classification.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The accuracy on the given dataset.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.visualize">
+<span class="sig-name descname"><span class="pre">visualize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.visualize" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-rules_extraction.utils">
+<span id="rules-extraction-utils-module"></span><h2>rules_extraction.utils module<a class="headerlink" href="#module-rules_extraction.utils" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-rules_extraction">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-rules_extraction" title="Permalink to this heading"></a></h2>
