@@ -4,14 +4,6 @@ rules\_extraction package
 Submodules
 ----------
 
-rules\_extraction.RuleExtractor module
---------------------------------------
-
-.. automodule:: rules_extraction.RuleExtractor
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 rules\_extraction.data\_processor module
 ----------------------------------------
 
