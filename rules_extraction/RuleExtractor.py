@@ -126,13 +126,6 @@ class RandomForestTrainer:
 
         return all_rules
     
-    
-# Usage:
-# Assuming df is your dataset loaded as a pandas DataFrame
-# rf_trainer = RandomForestTrainer(df)
-# rf_trainer.train_random_forest(n_estimators=100, max_depth=10)
-
-
 
 class RuleHandler:
     def __init__(self, rules):
