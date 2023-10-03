@@ -5,15 +5,6 @@ import numpy as np
 from sklearn.linear_model import Perceptron
 from sklearn.metrics import accuracy_score
 
-ops = {
-    "<": operator.lt,
-    "<=": operator.le,
-    ">": operator.gt,
-    ">=": operator.ge,
-    "==": operator.eq,
-    "!=": operator.ne,
-}
-
 
 class RuleHandler:
     """
@@ -22,6 +13,15 @@ class RuleHandler:
     :param rules: The list of rules. Each rule should be a list or a string.
     :type rules: list
     """
+
+    ops = {
+        "<": operator.lt,
+        "<=": operator.le,
+        ">": operator.gt,
+        ">=": operator.ge,
+        "==": operator.eq,
+        "!=": operator.ne,
+    }
 
     def __init__(self, rules):
         assert all(
@@ -48,7 +48,7 @@ class RuleHandler:
             terms = rule_term.split()
             column_index = int(terms[0])
             threshold = float(terms[2])
-            operation = ops.get(terms[1], None)
+            operation = RuleHandler.ops.get(terms[1], None)
 
             if operation is None:
                 raise ValueError(f"Unknown operation: {terms[1]}")
@@ -119,11 +119,11 @@ class RuleHandler:
         if self.perceptron is None or self.perceptron.coef_ is None:
             raise ValueError("The perceptron must be trained before ranking rules.")
 
-        rule_importances = self.perceptron.coef_[0]
-        absolute_importances = np.abs(rule_importances)
-        sorted_indices = np.argsort(absolute_importances)[::-1]
+        rule_importance = self.perceptron.coef_[0]
+        absolute_importance = np.abs(rule_importance)
+        sorted_indices = np.argsort(absolute_importance)[::-1]
         most_predictive_rules = [
-            (self.rules[i], absolute_importances[i]) for i in sorted_indices
+            (self.rules[i], absolute_importance[i]) for i in sorted_indices
         ]
 
         return most_predictive_rules[:N] if N is not None else most_predictive_rules
@@ -148,7 +148,8 @@ class RuleHandler:
                 self._classify_data_point(data_point, top_rules) for data_point in data
             ]
 
-    def _classify_data_point(self, data_point, top_rules):
+    @classmethod
+    def _classify_data_point(cls, data_point, top_rules):
         """
         Classifies a single data point using the specified rules.
 
@@ -168,7 +169,7 @@ class RuleHandler:
                 terms = condition.split()
                 column_index = int(terms[0])
                 threshold = float(terms[2])
-                operation = ops[terms[1]]
+                operation = cls.ops[terms[1]]
 
                 if not operation(data_point[column_index], threshold):
                     rule_holds = False
@@ -186,10 +187,10 @@ class RuleHandler:
         """
         Computes the accuracy of classification on a given dataset.
 
-        :param X: The feature matrix.
-        :type X: ndarray or DataFrame
-        :param y: The true labels.
-        :type y: 1D array-like
+        :param X_test: The feature matrix.
+        :type X_test: ndarray or DataFrame
+        :param y_test: The true labels.
+        :type y_test: 1D array-like
         :param top_rules: The rules to be used for classification.
         :type top_rules: list of tuples or None
         :return: The accuracy on the given dataset.
