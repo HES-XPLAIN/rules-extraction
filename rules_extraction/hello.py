@@ -14,4 +14,4 @@ def hello_name(name: str) -> str:
     :param name: A string representing the name of the person to greet.
     :rtype: str
     """
-    return "Hello you , " + name + "!"
+    return "Hello, " + name + "!"
