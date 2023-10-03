@@ -12,6 +12,14 @@ Rules extraction for eXplainable AI
 * Install [Python](https://www.python.org/).
 * Install [poetry](https://python-poetry.org/docs/#installation) and add it to your PATH.
 
+In your `~/.bashrc` or `~/.zshrc`, add:
+
+```shell
+export PATH=$PATH:$HOME/.local/bin
+```
+
+Then reload the shell config with `source ~/.bashrc` or `source ~/.zshrc`.
+
 Ensure `python` and `poetry` are accessible in the `$PATH` environment variable.
 
 To check the installation, check the following commands return an output:
