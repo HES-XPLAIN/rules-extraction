@@ -43,6 +43,16 @@ Pre-commit hooks can be run manually with:
 pre-commit run --all-files
 ```
 
+### Notes
+
+If `poetry install` fails due to keyring access (when using SSH for example), you can use the following:
+
+```shell
+export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+```
+
+See this [poetry issue](https://github.com/python-poetry/poetry/issues/1917).
+
 ## Release
 
 To publish the package on [PyPI](https://pypi.org/project/rules-extraction/), refer to [RELEASE](RELEASE.md).
