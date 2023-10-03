@@ -1,11 +1,12 @@
-import torch
-import pandas as pd
-import numpy as np
 import os
+
+import numpy as np
+import pandas as pd
+import torch
 
 
 class DataProcessor:
-    def __init__(self, model, dataloader, device=torch.device('cuda')):
+    def __init__(self, model, dataloader, device=torch.device("cuda")):
         self.model = model
         self.dataloader = dataloader
         self.device = device
@@ -16,19 +17,18 @@ class DataProcessor:
     @staticmethod
     def make_target_df(df, target_class):
         # Extract all rows where label matches the target_class
-        target_df = df[df['label'] == target_class]
+        target_df = df[df["label"] == target_class]
         n = target_df.shape[0]
 
         # Extract randomly n rows where label doesn't match target_class
-        non_target_df = df[df['label'] != target_class].sample(n)
+        non_target_df = df[df["label"] != target_class].sample(n)
 
         final_df = pd.concat([target_df, non_target_df])
-        final_df['binary_label'] = np.where(final_df['label'] == target_class, 1, 0)
+        final_df["binary_label"] = np.where(final_df["label"] == target_class, 1, 0)
 
         return final_df
 
     def process_dataset(self, feature_layer, target_class):
-
         self.model.to(self.device)
         features_list, labels_list, paths_list = [], [], []
 
@@ -43,14 +43,16 @@ class DataProcessor:
             paths_list.extend(paths)
 
         df = pd.DataFrame(features_list)
-        df['label'] = labels_list
-        df['path'] = paths_list
+        df["label"] = labels_list
+        df["path"] = paths_list
 
         # NEED TO ADD CHECK ABOUT DATA TYPE IN DF and LABEL MAPPING ETC.
 
         # then we call make_target_df
-        folder = 'binary_dataset'
+        folder = "binary_dataset"
         os.makedirs(folder, exist_ok=True)  # This line ensures the folder exists
         df_new = self.make_target_df(df=df, target_class=target_class)
-        path = os.path.join(folder, f'{target_class}.csv')  # This line constructs the path using os.path.join
+        path = os.path.join(
+            folder, f"{target_class}.csv"
+        )  # This line constructs the path using os.path.join
         df_new.to_csv(path)

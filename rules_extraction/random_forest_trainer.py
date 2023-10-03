@@ -1,5 +1,4 @@
 import pandas as pd
-
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.tree import _tree
@@ -19,7 +18,9 @@ class RandomForestTrainer:
         assert isinstance(dataset, pd.DataFrame), "Dataset should be a pandas DataFrame"
         self.dataset = dataset
         self.model = None
-        self.feature_columns = dataset.columns[:-1]  # assuming the last column is the target
+        self.feature_columns = dataset.columns[
+            :-1
+        ]  # assuming the last column is the target
         self.target_column = dataset.columns[-1]
         self.X = self.dataset[self.feature_columns]
         self.y = self.dataset[self.target_column]
@@ -31,8 +32,8 @@ class RandomForestTrainer:
         :param kwargs: Arguments to pass to train_test_split and RandomForestClassifier.
         :type kwargs: dict
         """
-        test_size = kwargs.pop('test_size', 0.25)
-        random_state = kwargs.pop('random_state', None)
+        test_size = kwargs.pop("test_size", 0.25)
+        random_state = kwargs.pop("random_state", None)
         X_train, _, y_train, _ = train_test_split(
             self.X, self.y, test_size=test_size, random_state=random_state
         )
@@ -62,12 +63,16 @@ class RandomForestTrainer:
             # left child
             left_rule = current_rule.copy()
             left_rule.append(f"{name} <= {threshold:.2f}")
-            RandomForestTrainer.recurse(tree_, feature_name, tree_.children_left[node], left_rule, rules_list)
+            RandomForestTrainer.recurse(
+                tree_, feature_name, tree_.children_left[node], left_rule, rules_list
+            )
 
             # right child
             right_rule = current_rule.copy()
             right_rule.append(f"{name} > {threshold:.2f}")
-            RandomForestTrainer.recurse(tree_, feature_name, tree_.children_right[node], right_rule, rules_list)
+            RandomForestTrainer.recurse(
+                tree_, feature_name, tree_.children_right[node], right_rule, rules_list
+            )
         else:
             # Extract the label based on class distributions at the leaf node
             label = 0 if tree_.value[node][0][0] > tree_.value[node][0][1] else 1
@@ -83,7 +88,9 @@ class RandomForestTrainer:
         ]
         rules_list = []
 
-        RandomForestTrainer.recurse(tree_, feature_name, 0, [], rules_list)  # start from the root node
+        RandomForestTrainer.recurse(
+            tree_, feature_name, 0, [], rules_list
+        )  # start from the root node
 
         return rules_list
 
