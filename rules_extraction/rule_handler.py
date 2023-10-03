@@ -224,7 +224,7 @@ class RuleHandler:
         :param rules: The rules to save.
         :param path: The path of the file to save rules to.
         """
-        with open(path, 'w') as file:
+        with open(path, "w") as file:
             json.dump(rules, file)
 
     @staticmethod
@@ -235,7 +235,7 @@ class RuleHandler:
         :param path: The path of the file to load rules from.
         :return: The loaded rules.
         """
-        with open(path, 'r') as file:
+        with open(path, "r") as file:
             return json.load(file)
 
 
