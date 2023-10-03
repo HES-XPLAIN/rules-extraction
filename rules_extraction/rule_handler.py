@@ -1,7 +1,6 @@
 from sklearn.linear_model import Perceptron
 from sklearn.metrics import accuracy_score
 
-import pandas as pd
 import operator
 import numpy as np
 import json
@@ -21,12 +20,12 @@ class RuleHandler:
         '==': operator.eq,
         '!=': operator.ne
     }
-    
+
     def __init__(self, rules):
         assert all(isinstance(rule, (list, str)) for rule in rules), "All rules should be either strings or lists"
         self.rules = rules
         self.perceptron = None
-        
+
     @staticmethod
     def is_rule(data_point, rule):
         """
@@ -40,7 +39,7 @@ class RuleHandler:
         :rtype: bool
         """
         assert isinstance(rule, list), "Rule should be a list"
-        
+
         for rule_term in rule:
             terms = rule_term.split()
             column_index = int(terms[0])
@@ -55,7 +54,7 @@ class RuleHandler:
 
         return True  # All rule_terms are satisfied
 
-    def data_to_rules(self, X_arr):   
+    def data_to_rules(self, X_arr):
         """
         Transform a dataset based on the set of rules, creating binary features.
 
@@ -64,10 +63,10 @@ class RuleHandler:
         :return: The transformed data array.
         :rtype: numpy.ndarray
         """
-        
+
         def apply_rules(data_point):
             return [1 if self.is_rule(data_point, rule) else 0 for rule in self.rules]
-        
+
         return np.apply_along_axis(apply_rules, 1, np.asarray(X_arr))
 
 
@@ -121,10 +120,10 @@ class RuleHandler:
         absolute_importances = np.abs(rule_importances)
         sorted_indices = np.argsort(absolute_importances)[::-1]
         most_predictive_rules = [(self.rules[i], absolute_importances[i]) for i in sorted_indices]
-        
+
         return most_predictive_rules[:N] if N is not None else most_predictive_rules
 
-    
+
 
     def predict(self, data, top_rules):
         """
@@ -196,7 +195,7 @@ class RuleHandler:
 
         y_pred = self.predict(X_test, top_rules)
         return accuracy_score(y_test, y_pred)
-    
+
 
     def save(self, path, rules=None):
         """
@@ -242,5 +241,3 @@ class RuleHandler:
 
     def visualize(self, rules):
         pass
-
-
