@@ -329,6 +329,11 @@
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.ops">
+<span class="sig-name descname"><span class="pre">ops</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'!=':</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">ne&gt;,</span> <span class="pre">'&lt;':</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">lt&gt;,</span> <span class="pre">'&lt;=':</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">le&gt;,</span> <span class="pre">'==':</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">eq&gt;,</span> <span class="pre">'&gt;':</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">gt&gt;,</span> <span class="pre">'&gt;=':</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">ge&gt;}</span></em><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.ops" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="rules_extraction.rule_handler.RuleHandler.predict">
 <span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_rules</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.rule_handler.RuleHandler.predict" title="Permalink to this definition"></a></dt>
@@ -404,8 +409,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>ndarray</em><em> or </em><em>DataFrame</em>) – The feature matrix.</p></li>
-<li><p><strong>y</strong> (<em>1D array-like</em>) – The true labels.</p></li>
+<li><p><strong>X_test</strong> (<em>ndarray</em><em> or </em><em>DataFrame</em>) – The feature matrix.</p></li>
+<li><p><strong>y_test</strong> (<em>1D array-like</em>) – The true labels.</p></li>
 <li><p><strong>top_rules</strong> (<em>list</em><em> of </em><em>tuples</em><em> or </em><em>None</em>) – The rules to be used for classification.</p></li>
 </ul>
 </dd>
