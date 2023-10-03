@@ -1,10 +1,19 @@
+import json
+import operator
+
+import numpy as np
 from sklearn.linear_model import Perceptron
 from sklearn.metrics import accuracy_score
 
-import pandas as pd
-import operator
-import numpy as np
-import json
+ops = {
+    "<": operator.lt,
+    "<=": operator.le,
+    ">": operator.gt,
+    ">=": operator.ge,
+    "==": operator.eq,
+    "!=": operator.ne,
+}
+
 
 class RuleHandler:
     """
@@ -13,20 +22,14 @@ class RuleHandler:
     :param rules: The list of rules. Each rule should be a list or a string.
     :type rules: list
     """
-    ops = {
-        '<': operator.lt,
-        '<=': operator.le,
-        '>': operator.gt,
-        '>=': operator.ge,
-        '==': operator.eq,
-        '!=': operator.ne
-    }
-    
+
     def __init__(self, rules):
-        assert all(isinstance(rule, (list, str)) for rule in rules), "All rules should be either strings or lists"
+        assert all(
+            isinstance(rule, (list, str)) for rule in rules
+        ), "All rules should be either strings or lists"
         self.rules = rules
         self.perceptron = None
-        
+
     @staticmethod
     def is_rule(data_point, rule):
         """
@@ -40,7 +43,7 @@ class RuleHandler:
         :rtype: bool
         """
         assert isinstance(rule, list), "Rule should be a list"
-        
+
         for rule_term in rule:
             terms = rule_term.split()
             column_index = int(terms[0])
@@ -55,7 +58,7 @@ class RuleHandler:
 
         return True  # All rule_terms are satisfied
 
-    def data_to_rules(self, X_arr):   
+    def data_to_rules(self, X_arr):
         """
         Transform a dataset based on the set of rules, creating binary features.
 
@@ -64,14 +67,13 @@ class RuleHandler:
         :return: The transformed data array.
         :rtype: numpy.ndarray
         """
-        
+
         def apply_rules(data_point):
             return [1 if self.is_rule(data_point, rule) else 0 for rule in self.rules]
-        
+
         return np.apply_along_axis(apply_rules, 1, np.asarray(X_arr))
 
-
-    def fit_perceptron(self, X_train, y_train, penalty='l1', alpha=0.01):
+    def fit_perceptron(self, X_train, y_train, penalty="l1", alpha=0.01):
         """
         Fit a Perceptron model to the training data.
 
@@ -120,11 +122,11 @@ class RuleHandler:
         rule_importances = self.perceptron.coef_[0]
         absolute_importances = np.abs(rule_importances)
         sorted_indices = np.argsort(absolute_importances)[::-1]
-        most_predictive_rules = [(self.rules[i], absolute_importances[i]) for i in sorted_indices]
-        
-        return most_predictive_rules[:N] if N is not None else most_predictive_rules
+        most_predictive_rules = [
+            (self.rules[i], absolute_importances[i]) for i in sorted_indices
+        ]
 
-    
+        return most_predictive_rules[:N] if N is not None else most_predictive_rules
 
     def predict(self, data, top_rules):
         """
@@ -142,7 +144,9 @@ class RuleHandler:
             return [self._classify_data_point(data, top_rules)]
         else:
             # Multiple data points
-            return [self._classify_data_point(data_point, top_rules) for data_point in data]
+            return [
+                self._classify_data_point(data_point, top_rules) for data_point in data
+            ]
 
     def _classify_data_point(self, data_point, top_rules):
         """
@@ -192,11 +196,12 @@ class RuleHandler:
         :rtype: float
         """
         if top_rules is None:
-            raise ValueError("top_rules must be provided, use rank_rules method to compute them.")
+            raise ValueError(
+                "top_rules must be provided, use rank_rules method to compute them."
+            )
 
         y_pred = self.predict(X_test, top_rules)
         return accuracy_score(y_test, y_pred)
-    
 
     def save(self, path, rules=None):
         """
@@ -225,7 +230,7 @@ class RuleHandler:
         :param rules: The rules to save.
         :param path: The path of the file to save rules to.
         """
-        with open(path, 'w') as file:
+        with open(path, "w") as file:
             json.dump(rules, file)
 
     @staticmethod
@@ -236,11 +241,8 @@ class RuleHandler:
         :param path: The path of the file to load rules from.
         :return: The loaded rules.
         """
-        with open(path, 'r') as file:
+        with open(path, "r") as file:
             return json.load(file)
-
 
     def visualize(self, rules):
         pass
-
-
