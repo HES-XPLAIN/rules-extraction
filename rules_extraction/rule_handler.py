@@ -24,7 +24,6 @@ class RuleHandler:
     }
 
     def __init__(self, rules):
-        """
         assert all(
             isinstance(rule, tuple)
             and isinstance(rule[0], list)
@@ -33,7 +32,7 @@ class RuleHandler:
             and (rule[1] == 0 or rule[1] == 1)  # To ensure the integer is 0 or 1
             for rule in rules
         ), "Rules should be tuples with (list of strings, int where int is 0 or 1)"
-        """
+
         self.rules = rules
         self.perceptron = None
 
@@ -45,10 +44,17 @@ class RuleHandler:
         :param data_point: The data point to be checked.
         :type data_point: numpy.ndarray
         :param rule: The rule against which to check the data point.
-        :type rule: list
+                     Expected to be a tuple of (list, int).
+        :type rule: tuple
         :return: True if the data point satisfies the rule, False otherwise.
         :rtype: bool
         """
+        assert (
+            isinstance(rule, tuple)
+            and len(rule) == 2
+            and isinstance(rule[0], list)
+            and isinstance(rule[1], int)
+        ), "rule should be a tuple of (list, int)"
 
         for rule_term in rule[0]:
             terms = rule_term.split()
@@ -96,7 +102,7 @@ class RuleHandler:
         X_train_rules = self.data_to_rules(X_train)
         self.perceptron.fit(X_train_rules, y_train)
 
-    def evaluate_perceptron(self, X_test, y_test):
+    def evaluate_perceptron(self, X_test, y_test, **kwargs):
         """
         Evaluate the Perceptron model on test data.
 
@@ -108,8 +114,7 @@ class RuleHandler:
         :rtype: float
         """
         X_test_rules = self.data_to_rules(X_test)
-        test_predictions = self.perceptron.predict(X_test_rules)
-        accuracy = accuracy_score(y_test, test_predictions)
+        accuracy = self.perceptron.score(X_test_rules, y_test, **kwargs)
         return accuracy
 
     def rank_rules(self, N=None):
