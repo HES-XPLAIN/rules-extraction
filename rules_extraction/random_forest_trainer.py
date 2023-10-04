@@ -32,15 +32,15 @@ class RandomForestTrainer:
         :param kwargs: Arguments to pass to train_test_split and RandomForestClassifier.
         :type kwargs: dict
         """
-        test_size = kwargs.pop("test_size", 0.25)
-        random_state = kwargs.pop("random_state", None)
-        X_train, _, y_train, _ = train_test_split(
+        test_size = kwargs.pop("test_size", 0.2)
+        random_state = kwargs.get("random_state", None)
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
             self.X, self.y, test_size=test_size, random_state=random_state
         )
         self.model = RandomForestClassifier(**kwargs)
-        self.model.fit(X_train, y_train)
+        self.model.fit(self.X_train, self.y_train)
 
-    def evaluate(self, X_test, y_test):
+    def evaluate(self, X=None, y=None):
         """
         Evaluate the model's accuracy on a test set.
 
@@ -51,7 +51,11 @@ class RandomForestTrainer:
         :return: Accuracy of the model on the test set.
         :rtype: float
         """
-        return self.model.score(X_test, y_test)
+        return (
+            self.model.score(self.X_test, self.y_test)
+            if X is None and y is None
+            else self.model.score(X, y)
+        )
 
     @staticmethod
     def recurse(tree_, feature_name, node, current_rule, rules_list):
