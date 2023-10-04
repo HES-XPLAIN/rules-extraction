@@ -79,7 +79,7 @@ class RuleHandler:
 
         return np.apply_along_axis(apply_rules, 1, np.asarray(X_arr))
 
-    def fit_perceptron(self, X_train, y_train, penalty="l1", alpha=0.01):
+    def fit_perceptron(self, X_train, y_train, penalty="l1", alpha=0.01, **kwargs):
         """
         Fit a Perceptron model to the training data.
 
@@ -92,7 +92,7 @@ class RuleHandler:
         :param alpha: Constant that multiplies the regularization term (default is 0.01).
         :type alpha: float
         """
-        self.perceptron = Perceptron(penalty=penalty, alpha=alpha)
+        self.perceptron = Perceptron(penalty=penalty, alpha=alpha, **kwargs)
         X_train_rules = self.data_to_rules(X_train)
         self.perceptron.fit(X_train_rules, y_train)
 
