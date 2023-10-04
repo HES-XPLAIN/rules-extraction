@@ -48,7 +48,6 @@ class DataProcessor:
 
         # NEED TO ADD CHECK ABOUT DATA TYPE IN DF and LABEL MAPPING ETC.
 
-        # then we call make_target_df
         folder = "binary_dataset"
         os.makedirs(folder, exist_ok=True)  # This line ensures the folder exists
         df_new = self.make_target_df(df=df, target_class=target_class)
@@ -56,3 +55,8 @@ class DataProcessor:
             folder, f"{target_class}.csv"
         )  # This line constructs the path using os.path.join
         df_new.to_csv(path)
+
+        # Notify the user
+        print(
+            f"Your new data, with target class '{target_class}', has been created and saved to: {path}"
+        )
