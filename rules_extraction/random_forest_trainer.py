@@ -110,30 +110,29 @@ class RandomForestTrainer:
 
         return rules_list
 
+    def extract_all_rules(self, verbose=1):
+        """
+        Extract rules from all the trees in the random forest.
 
-def extract_all_rules(self, verbose=1):
-    """
-    Extract rules from all the trees in the random forest.
+        :param verbose: Control the verbosity of messages printed to console.
+            - 0: No output
+            - 1: Print the total number of extracted rules (default)
+            - 2+: Any other detailed messages, if applicable
+        :type verbose: int
+        :return: List of all extracted rules.
+        :rtype: list
+        :raises AssertionError: If model has not been trained yet.
+        """
+        assert self.model is not None, "Model is not trained yet"
+        trees = self.model.estimators_
+        rules_per_forest = []
 
-    :param verbose: Control the verbosity of messages printed to console.
-        - 0: No output
-        - 1: Print the total number of extracted rules (default)
-        - 2+: Any other detailed messages, if applicable
-    :type verbose: int
-    :return: List of all extracted rules.
-    :rtype: list
-    :raises AssertionError: If model has not been trained yet.
-    """
-    assert self.model is not None, "Model is not trained yet"
-    trees = self.model.estimators_
-    rules_per_forest = []
+        for tree in trees:
+            rules_per_tree = self.extract_rules(tree)
+            rules_per_forest.append(rules_per_tree)
 
-    for tree in trees:
-        rules_per_tree = self.extract_rules(tree)
-        rules_per_forest.append(rules_per_tree)
+        all_rules = [rule for tree_rules in rules_per_forest for rule in tree_rules]
+        if verbose == 1:
+            print(f"Number of rules is {len(all_rules)}")
 
-    all_rules = [rule for tree_rules in rules_per_forest for rule in tree_rules]
-    if verbose == 1:
-        print(f"Number of rules is {len(all_rules)}")
-
-    return all_rules
+        return all_rules
