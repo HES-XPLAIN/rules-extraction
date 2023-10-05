@@ -25,8 +25,14 @@ class RuleHandler:
 
     def __init__(self, rules):
         assert all(
-            isinstance(rule, (list, str)) for rule in rules
-        ), "All rules should be either strings or lists"
+            isinstance(rule, tuple)
+            and isinstance(rule[0], list)
+            and all(isinstance(condition, str) for condition in rule[0])
+            and isinstance(rule[1], int)
+            and (rule[1] == 0 or rule[1] == 1)  # To ensure the integer is 0 or 1
+            for rule in rules
+        ), "Rules should be tuples with (list of strings, int where int is 0 or 1)"
+
         self.rules = rules
         self.perceptron = None
 
@@ -38,13 +44,19 @@ class RuleHandler:
         :param data_point: The data point to be checked.
         :type data_point: numpy.ndarray
         :param rule: The rule against which to check the data point.
-        :type rule: list
+                     Expected to be a tuple of (list, int).
+        :type rule: tuple
         :return: True if the data point satisfies the rule, False otherwise.
         :rtype: bool
         """
-        assert isinstance(rule, list), "Rule should be a list"
+        assert (
+            isinstance(rule, tuple)
+            and len(rule) == 2
+            and isinstance(rule[0], list)
+            and isinstance(rule[1], int)
+        ), "rule should be a tuple of (list, int)"
 
-        for rule_term in rule:
+        for rule_term in rule[0]:
             terms = rule_term.split()
             column_index = int(terms[0])
             threshold = float(terms[2])
@@ -73,7 +85,7 @@ class RuleHandler:
 
         return np.apply_along_axis(apply_rules, 1, np.asarray(X_arr))
 
-    def fit_perceptron(self, X_train, y_train, penalty="l1", alpha=0.01):
+    def fit_perceptron(self, X_train, y_train, penalty="l1", alpha=0.01, **kwargs):
         """
         Fit a Perceptron model to the training data.
 
@@ -86,11 +98,11 @@ class RuleHandler:
         :param alpha: Constant that multiplies the regularization term (default is 0.01).
         :type alpha: float
         """
-        self.perceptron = Perceptron(penalty=penalty, alpha=alpha)
+        self.perceptron = Perceptron(penalty=penalty, alpha=alpha, **kwargs)
         X_train_rules = self.data_to_rules(X_train)
         self.perceptron.fit(X_train_rules, y_train)
 
-    def evaluate_perceptron(self, X_test, y_test):
+    def evaluate_perceptron(self, X_test, y_test, **kwargs):
         """
         Evaluate the Perceptron model on test data.
 
@@ -102,8 +114,7 @@ class RuleHandler:
         :rtype: float
         """
         X_test_rules = self.data_to_rules(X_test)
-        test_predictions = self.perceptron.predict(X_test_rules)
-        accuracy = accuracy_score(y_test, test_predictions)
+        accuracy = self.perceptron.score(X_test_rules, y_test, **kwargs)
         return accuracy
 
     def rank_rules(self, N=None):
@@ -122,9 +133,7 @@ class RuleHandler:
         rule_importance = self.perceptron.coef_[0]
         absolute_importance = np.abs(rule_importance)
         sorted_indices = np.argsort(absolute_importance)[::-1]
-        most_predictive_rules = [
-            (self.rules[i], absolute_importance[i]) for i in sorted_indices
-        ]
+        most_predictive_rules = [self.rules[i] for i in sorted_indices]
 
         return most_predictive_rules[:N] if N is not None else most_predictive_rules
 
@@ -139,14 +148,17 @@ class RuleHandler:
         :return: The predicted labels.
         :rtype: list
         """
+        data = np.array(data)
         if len(np.shape(data)) == 1:
             # Single data point
-            return [self._classify_data_point(data, top_rules)]
+            return self._classify_data_point(data, top_rules)
         else:
-            # Multiple data points
-            return [
-                self._classify_data_point(data_point, top_rules) for data_point in data
-            ]
+            return np.array(
+                [
+                    self._classify_data_point(data_point, top_rules)
+                    for data_point in data
+                ]
+            )
 
     @classmethod
     def _classify_data_point(cls, data_point, top_rules):
@@ -161,6 +173,7 @@ class RuleHandler:
         :rtype: int
         """
 
+        # Initializing the vote counter
         votes = {0: 0, 1: 0}
 
         for rule_conditions, rule_label in top_rules:
@@ -171,16 +184,20 @@ class RuleHandler:
                 threshold = float(terms[2])
                 operation = cls.ops[terms[1]]
 
+                # Check if the data_point meets the condition
                 if not operation(data_point[column_index], threshold):
                     rule_holds = False
                     break  # Exit the condition loop as soon as one condition is not met
 
+            # Vote counting logic
             if rule_holds:
+                # Voting for rule_label if rule holds
                 votes[rule_label] += 1
             else:
-                votes[1 - rule_label] += 1  # Vote for the opposite label
+                # Voting for the opposite of rule_label if rule does not hold
+                votes[1 - rule_label] += 1
 
-        # Return the label with the most votes. Handle ties as needed.
+        # Returning the label with the most votes. In case of a tie, select label 0.
         return 0 if votes[0] >= votes[1] else 1
 
     def score(self, X_test, y_test, top_rules=None):
