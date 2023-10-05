@@ -243,12 +243,24 @@
 <span id="rules-extraction-result-plotter-module"></span><h2>rules_extraction.result_plotter module<a class="headerlink" href="#module-rules_extraction.result_plotter" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="rules_extraction.result_plotter.ResultPlotter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rules_extraction.result_plotter.</span></span><span class="sig-name descname"><span class="pre">ResultPlotter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.result_plotter.ResultPlotter" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rules_extraction.result_plotter.</span></span><span class="sig-name descname"><span class="pre">ResultPlotter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.result_plotter.ResultPlotter" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="rules_extraction.result_plotter.ResultPlotter.plot_results">
-<span class="sig-name descname"><span class="pre">plot_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.result_plotter.ResultPlotter.plot_results" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="rules_extraction.result_plotter.ResultPlotter.plot_accuracy">
+<span class="sig-name descname"><span class="pre">plot_accuracy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.result_plotter.ResultPlotter.plot_accuracy" title="Permalink to this definition"></a></dt>
+<dd><p>Plots and optionally saves a plot of accuracy vs. number of rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_test</strong> – test data features</p></li>
+<li><p><strong>y_test</strong> – test data labels</p></li>
+<li><p><strong>class_name</strong> – string, name of the class</p></li>
+<li><p><strong>N</strong> – int, maximum number of rules to consider</p></li>
+<li><p><strong>save_path</strong> – str, if provided, the path where the plot will be saved</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
