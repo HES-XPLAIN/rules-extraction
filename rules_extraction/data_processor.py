@@ -8,11 +8,13 @@ from torch.utils.data import DataLoader, Subset
 
 class DataProcessor:
     """
-    A class used to process datasets for machine learning models.
+    A class used to process datasets by extracting features map from a CNN model.
 
     """
 
-    def __init__(self, model, dataloader, device):
+    def __init__(
+        self, model, train_dataloader, test_dataloader=None, device=torch.device("cuda")
+    ):
         """
         Constructs all the necessary attributes for the DataProcessor object.
 
@@ -30,9 +32,11 @@ class DataProcessor:
                 "Provided model is not a PyTorch model. Currently, only PyTorch models are supported."
             )
         self.model = model
-        self.dataloader = dataloader
+        self.dataloader = train_dataloader
+        self.test_dataloader = test_dataloader
         self.device = device
         self.filtered_dataloader = None
+        self.test_filtered_dataloader = None
 
     def extract_features_vgg(self, x):
         """
@@ -61,13 +65,20 @@ class DataProcessor:
         """
         pass
 
-    def filter_dataset(self):
+    def filter_dataset(self, test_data=False):
         """
         Filters dataset using model predictions and updates `filtered_dataloader`.
+        Test data allow to create a separate test dataset, self.test_dataloader has to be initialized.
         """
         correct_indices_global = []
 
-        for i, (image, label, image_path) in enumerate(self.dataloader):
+        # Ensure filtered_dataloader is not None when filter=True.
+        if test_data and self.test_dataloader is None:
+            raise ValueError("Test DataLoader is None. You can't use test_data = True.")
+
+        loader = self.test_dataloader if test_data else self.dataloader
+
+        for i, (image, label, image_path) in enumerate(loader):
             image, label = image.to(self.device), label.to(self.device)
             with torch.no_grad():
                 logits = self.model(image)
@@ -89,14 +100,22 @@ class DataProcessor:
                 correct_indices_global.extend(correct_global)
 
         # Create a new Subset of the original dataset using the correct indices.
-        filtered_dataset = Subset(self.dataloader.dataset, correct_indices_global)
-
-        # Create a new DataLoader using the filtered Subset.
-        self.filtered_dataloader = DataLoader(
-            dataset=filtered_dataset,
-            batch_size=self.dataloader.batch_size,
-            shuffle=True,
-        )
+        if test_data:
+            filtered_dataset = Subset(
+                self.test_dataloader.dataset, correct_indices_global
+            )
+            self.test_filtered_dataloader = DataLoader(
+                dataset=filtered_dataset,
+                batch_size=self.test_dataloader.batch_size,
+                shuffle=True,
+            )
+        else:
+            filtered_dataset = Subset(self.dataloader.dataset, correct_indices_global)
+            self.filtered_dataloader = DataLoader(
+                dataset=filtered_dataset,
+                batch_size=self.dataloader.batch_size,
+                shuffle=True,
+            )
 
     @staticmethod
     def make_target_df(df, target_class):
@@ -129,7 +148,12 @@ class DataProcessor:
         return final_df
 
     def process_dataset(
-        self, target_class, extract_features=None, filter=True, class_dict=None
+        self,
+        target_class,
+        extract_features=None,
+        filter=True,
+        class_dict=None,
+        test_data=False,
     ):
         """
         Processes the dataset and saves a DataFrame with extracted features.
@@ -144,6 +168,8 @@ class DataProcessor:
             whether to use filtered data (default is True)
         class_dict : dict of {str: int} or {int: str}, optional
             mapping of class labels to integers or vice versa (default is None)
+        test_data : bool, optional
+            wether to use test_data loader to create files in a different folder
         """
 
         self.model.to(self.device)
@@ -151,13 +177,21 @@ class DataProcessor:
             target_class = class_dict.get(str(target_class))
         features_list, labels_list, paths_list = [], [], []
 
-        # Ensure filtered_dataloader is not None when filter=True.
+        """
         if filter and self.filtered_dataloader is None:
             raise ValueError(
                 "Filtered DataLoader is None. Please filter the dataset first."
             )
-
-        loader = self.filtered_dataloader if filter else self.dataloader
+        """
+        # Choose the appropriate loader
+        if filter and not test_data:
+            loader = self.filtered_dataloader
+        elif not filter and not test_data:
+            loader = self.dataloader
+        elif filter and test_data:
+            loader = self.test_filtered_dataloader
+        elif not filter and test_data:
+            loader = self.test_dataloader
 
         # Use a predefined feature extraction method if `extract_features` is None.
         if extract_features is None:
@@ -180,7 +214,8 @@ class DataProcessor:
         df["label"] = labels_list
         df["path"] = paths_list
 
-        folder = "binary_dataset"
+        folder = "binary_dataset_test" if test_data else "binary_dataset_train"
+
         os.makedirs(folder, exist_ok=True)  # This line ensures the folder exists
         df_new = self.make_target_df(df=df, target_class=target_class)
         file = (
