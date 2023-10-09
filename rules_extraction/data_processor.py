@@ -7,7 +7,24 @@ from torch.utils.data import DataLoader, Subset
 
 
 class DataProcessor:
+    """
+    A class used to process datasets for machine learning models.
+
+    """
+
     def __init__(self, model, dataloader, device):
+        """
+        Constructs all the necessary attributes for the DataProcessor object.
+
+        Parameters
+        ----------
+            model : torch.nn.Module
+                a PyTorch model for which the data is processed
+            dataloader : torch.utils.data.DataLoader
+                a DataLoader instance to load the data
+            device : torch.device
+                device type to which model and data are moved before processing
+        """
         if not isinstance(model, torch.nn.Module):
             raise TypeError(
                 "Provided model is not a PyTorch model. Currently, only PyTorch models are supported."
@@ -20,16 +37,34 @@ class DataProcessor:
     def extract_features_vgg(self, x):
         """
         Predefined feature extraction for VGG-like models.
+
+        Parameters
+        ----------
+        x : torch.Tensor
+            input data tensor
+
+        Returns
+        -------
+        torch.Tensor
+            extracted features
         """
         return torch.mean(self.model.features(x), dim=[2, 3])
 
     def extract_features_resnet(self, x):
         """
-        Predefined feature extraction for ResNet-like models.
+        Predefined feature extraction for ResNet-like models. [NOT IMPLEMENTED]
+
+        Parameters
+        ----------
+        x : torch.Tensor
+            input data tensor
         """
         pass
 
     def filter_dataset(self):
+        """
+        Filters dataset using model predictions and updates `filtered_dataloader`.
+        """
         correct_indices_global = []
 
         for i, (image, label, image_path) in enumerate(self.dataloader):
@@ -65,6 +100,22 @@ class DataProcessor:
 
     @staticmethod
     def make_target_df(df, target_class):
+        """
+        Produces a DataFrame with binary labels: 1 for `target_class` and 0 for other classes.
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            input DataFrame
+        target_class : int or str
+            class label to be considered as target (1)
+
+        Returns
+        -------
+        pd.DataFrame
+            new DataFrame with binary labels
+        """
+
         # Extract all rows where label matches the target_class
         target_df = df[df["label"] == target_class]
         n = target_df.shape[0]
@@ -80,6 +131,21 @@ class DataProcessor:
     def process_dataset(
         self, target_class, extract_features=None, filter=True, class_dict=None
     ):
+        """
+        Processes the dataset and saves a DataFrame with extracted features.
+
+        Parameters
+        ----------
+        target_class : int or str
+            class label to be considered as target
+        extract_features : callable, optional
+            function to extract features (default is None)
+        filter : bool, optional
+            whether to use filtered data (default is True)
+        class_dict : dict of {str: int} or {int: str}, optional
+            mapping of class labels to integers or vice versa (default is None)
+        """
+
         self.model.to(self.device)
         if class_dict is not None:
             target_class = class_dict.get(str(target_class))
@@ -113,9 +179,6 @@ class DataProcessor:
             labels_list = [class_dict[str(item)] for item in labels_list]
         df["label"] = labels_list
         df["path"] = paths_list
-        print(df.head())
-
-        # NEED TO ADD CHECK ABOUT DATA TYPE IN DF and LABEL MAPPING ETC.
 
         folder = "binary_dataset"
         os.makedirs(folder, exist_ok=True)  # This line ensures the folder exists
