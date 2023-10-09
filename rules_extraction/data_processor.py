@@ -8,10 +8,26 @@ from torch.utils.data import DataLoader, Subset
 
 class DataProcessor:
     def __init__(self, model, dataloader, device):
+        if not isinstance(model, torch.nn.Module):
+            raise TypeError(
+                "Provided model is not a PyTorch model. Currently, only PyTorch models are supported."
+            )
         self.model = model
         self.dataloader = dataloader
         self.device = device
         self.filtered_dataloader = None
+
+    def extract_features_vgg(self, x):
+        """
+        Predefined feature extraction for VGG-like models.
+        """
+        return torch.mean(self.model.features(x), dim=[2, 3])
+
+    def extract_features_resnet(self, x):
+        """
+        Predefined feature extraction for ResNet-like models.
+        """
+        pass
 
     def filter_dataset(self):
         correct_indices_global = []
@@ -61,7 +77,7 @@ class DataProcessor:
 
         return final_df
 
-    def process_dataset(self, feature_layer, target_class, filter=True):
+    def process_dataset(self, target_class, extract_features=None, filter=True):
         self.model.to(self.device)
         features_list, labels_list, paths_list = [], [], []
 
@@ -70,15 +86,21 @@ class DataProcessor:
             raise ValueError(
                 "Filtered DataLoader is None. Please filter the dataset first."
             )
-        loader = self.dataloader if filter else self.filtered_dataloader
+
+        loader = self.filtered_dataloader if filter else self.dataloader
+
+        # Use a predefined feature extraction method if `extract_features` is None.
+        if extract_features is None:
+            raise ValueError(
+                "Please choose a predefined feature extraction method or implement a custom one."
+            )
 
         for images, labels, path in loader:
             paths = list(path)
             images, labels = images.to(self.device), labels.to(self.device)
-            # NEED TO IMPLEMENT FEATURE_LAYER
-            features = self.model.features(images)
-            avg_features = torch.mean(features, dim=[2, 3])
-            features_list.extend(avg_features.tolist())
+            features = extract_features(images)
+            # avg_features = torch.mean(features, dim=[2, 3])
+            features_list.extend(features.tolist())
             labels_list.extend(labels.tolist())
             paths_list.extend(paths)
 
