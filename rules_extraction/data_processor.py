@@ -77,8 +77,12 @@ class DataProcessor:
 
         return final_df
 
-    def process_dataset(self, target_class, extract_features=None, filter=True):
+    def process_dataset(
+        self, target_class, extract_features=None, filter=True, class_dict=None
+    ):
         self.model.to(self.device)
+        if class_dict is not None:
+            target_class = class_dict.get(str(target_class))
         features_list, labels_list, paths_list = [], [], []
 
         # Ensure filtered_dataloader is not None when filter=True.
@@ -105,8 +109,11 @@ class DataProcessor:
             paths_list.extend(paths)
 
         df = pd.DataFrame(features_list)
+        if class_dict is not None:
+            labels_list = [class_dict[str(item)] for item in labels_list]
         df["label"] = labels_list
         df["path"] = paths_list
+        print(df.head())
 
         # NEED TO ADD CHECK ABOUT DATA TYPE IN DF and LABEL MAPPING ETC.
 
