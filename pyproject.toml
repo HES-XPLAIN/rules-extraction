@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rules-extraction"
-version = "0.0.0"
+version = "0.0.1"
 description = "Rules extraction for eXplainable AI"
 authors = ["Arthur Babey <arthur.babey@heig-vd.ch>"]
 license = "3-Clause BSD License"
