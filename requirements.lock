@@ -7,6 +7,7 @@
 #   all-features: false
 
 -e file:.
+build==1.0.3
 certifi==2023.11.17
 charset-normalizer==3.3.2
 contourpy==1.2.0
@@ -39,6 +40,7 @@ packaging==23.2
 pandas==2.0.3
 pillow==10.1.0
 pyparsing==3.1.1
+pyproject-hooks==1.0.0
 python-dateutil==2.8.2
 pytz==2023.3.post1
 requests==2.31.0
