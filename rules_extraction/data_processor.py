@@ -6,7 +6,7 @@ import torch
 from torch.utils.data import DataLoader, Subset
 
 
-class DataProcessor2:
+class DataProcessor:
     """
     A class used to process datasets by extracting features map from a CNN model.
 
