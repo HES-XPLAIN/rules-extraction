@@ -6,7 +6,7 @@ import torch
 from torch.utils.data import DataLoader, Subset
 
 
-class DataProcessor:
+class DataProcessor2:
     """
     A class used to process datasets by extracting features map from a CNN model.
 
@@ -174,7 +174,7 @@ class DataProcessor:
 
         self.model.to(self.device)
         if class_dict is not None:
-            target_class = class_dict.get(str(target_class))
+            target_class = class_dict.get((target_class))
         features_list, labels_list, paths_list = [], [], []
 
         """
@@ -210,9 +210,13 @@ class DataProcessor:
 
         df = pd.DataFrame(features_list)
         if class_dict is not None:
-            labels_list = [class_dict[str(item)] for item in labels_list]
+            labels_list = [class_dict[(item)] for item in labels_list]
         df["label"] = labels_list
         df["path"] = paths_list
+
+        # create a df with all features stored from train or test dataset
+        df.to_csv('./all_features_test.csv', index=False) if test_data else df.to_csv('./all_features_train.csv',
+                                                                                      index=False)
 
         folder = "binary_dataset_test" if test_data else "binary_dataset_train"
 
@@ -226,7 +230,7 @@ class DataProcessor:
         path = os.path.join(
             folder, file
         )  # This line constructs the path using os.path.join
-        df_new.to_csv(path)
+        df_new.to_csv(path, index=False)
 
         # Notify the user
         print(
