@@ -50,7 +50,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">rules_extraction package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-rules_extraction.data_processor">rules_extraction.data_processor module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#rules_extraction.data_processor.DataProcessor"><code class="docutils literal notranslate"><span class="pre">DataProcessor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rules_extraction.data_processor.DataProcessor2"><code class="docutils literal notranslate"><span class="pre">DataProcessor2</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-rules_extraction.hello">rules_extraction.hello module</a><ul>
@@ -112,13 +112,13 @@
 <section id="module-rules_extraction.data_processor">
 <span id="rules-extraction-data-processor-module"></span><h2>rules_extraction.data_processor module<a class="headerlink" href="#module-rules_extraction.data_processor" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="rules_extraction.data_processor.DataProcessor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rules_extraction.data_processor.</span></span><span class="sig-name descname"><span class="pre">DataProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">device(type='cuda')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.data_processor.DataProcessor" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="rules_extraction.data_processor.DataProcessor2">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rules_extraction.data_processor.</span></span><span class="sig-name descname"><span class="pre">DataProcessor2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_dataloader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">device(type='cuda')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.data_processor.DataProcessor2" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class used to process datasets by extracting features map from a CNN model.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="rules_extraction.data_processor.DataProcessor.extract_features_resnet">
-<span class="sig-name descname"><span class="pre">extract_features_resnet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.data_processor.DataProcessor.extract_features_resnet" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="rules_extraction.data_processor.DataProcessor2.extract_features_resnet">
+<span class="sig-name descname"><span class="pre">extract_features_resnet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.data_processor.DataProcessor2.extract_features_resnet" title="Link to this definition"></a></dt>
 <dd><p>Predefined feature extraction for ResNet-like models. [NOT IMPLEMENTED]</p>
 <section id="parameters">
 <h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
@@ -130,8 +130,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="rules_extraction.data_processor.DataProcessor.extract_features_vgg">
-<span class="sig-name descname"><span class="pre">extract_features_vgg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.data_processor.DataProcessor.extract_features_vgg" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="rules_extraction.data_processor.DataProcessor2.extract_features_vgg">
+<span class="sig-name descname"><span class="pre">extract_features_vgg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.data_processor.DataProcessor2.extract_features_vgg" title="Link to this definition"></a></dt>
 <dd><p>Predefined feature extraction for VGG-like models.</p>
 <section id="id1">
 <h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
@@ -150,15 +150,15 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="rules_extraction.data_processor.DataProcessor.filter_dataset">
-<span class="sig-name descname"><span class="pre">filter_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.data_processor.DataProcessor.filter_dataset" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="rules_extraction.data_processor.DataProcessor2.filter_dataset">
+<span class="sig-name descname"><span class="pre">filter_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.data_processor.DataProcessor2.filter_dataset" title="Link to this definition"></a></dt>
 <dd><p>Filters dataset using model predictions and updates <cite>filtered_dataloader</cite>.
 Test data allow to create a separate test dataset, self.test_dataloader has to be initialized.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="rules_extraction.data_processor.DataProcessor.make_target_df">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_target_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.data_processor.DataProcessor.make_target_df" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="rules_extraction.data_processor.DataProcessor2.make_target_df">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_target_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.data_processor.DataProcessor2.make_target_df" title="Link to this definition"></a></dt>
 <dd><p>Produces a DataFrame with binary labels: 1 for <cite>target_class</cite> and 0 for other classes.</p>
 <section id="id2">
 <h3>Parameters<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
@@ -179,8 +179,8 @@ Test data allow to create a separate test dataset, self.test_dataloader has to b
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="rules_extraction.data_processor.DataProcessor.process_dataset">
-<span class="sig-name descname"><span class="pre">process_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.data_processor.DataProcessor.process_dataset" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="rules_extraction.data_processor.DataProcessor2.process_dataset">
+<span class="sig-name descname"><span class="pre">process_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.data_processor.DataProcessor2.process_dataset" title="Link to this definition"></a></dt>
 <dd><p>Processes the dataset and saves a DataFrame with extracted features.</p>
 <section id="id4">
 <h3>Parameters<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
@@ -332,6 +332,11 @@ Test data allow to create a separate test dataset, self.test_dataloader has to b
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rules_extraction.result_plotter.ResultPlotter.plot_rule_frontier">
+<span class="sig-name descname"><span class="pre">plot_rule_frontier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.65</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.result_plotter.ResultPlotter.plot_rule_frontier" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
