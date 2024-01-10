@@ -77,7 +77,7 @@ class DataProcessor:
             raise ValueError("Test DataLoader is None. You can't use test_data = True.")
 
         loader = self.test_dataloader if test_data else self.dataloader
-
+        self.model = self.model.eval()
         for i, (image, label, image_path) in enumerate(loader):
             image, label = image.to(self.device), label.to(self.device)
             with torch.no_grad():
@@ -107,14 +107,14 @@ class DataProcessor:
             self.test_filtered_dataloader = DataLoader(
                 dataset=filtered_dataset,
                 batch_size=self.test_dataloader.batch_size,
-                shuffle=True,
+                shuffle=False,
             )
         else:
             filtered_dataset = Subset(self.dataloader.dataset, correct_indices_global)
             self.filtered_dataloader = DataLoader(
                 dataset=filtered_dataset,
                 batch_size=self.dataloader.batch_size,
-                shuffle=True,
+                shuffle=False,
             )
 
     @staticmethod
@@ -160,8 +160,8 @@ class DataProcessor:
 
         Parameters
         ----------
-        target_class : int or str
-            class label to be considered as target
+        target_class : str or int
+            class label or class index to be considered as target
         extract_features : callable, optional
             function to extract features (default is None)
         filter : bool, optional
@@ -178,9 +178,9 @@ class DataProcessor:
         features_list, labels_list, paths_list = [], [], []
 
         """
-        if filter and self.filtered_dataloader is None:
+        if filter and self.filtered_dataloader is None and test_filtered_dataloader is None:
             raise ValueError(
-                "Filtered DataLoader is None. Please filter the dataset first."
+                "Filtered and Test filtered are None. Please filter the dataset first if using filter = True."
             )
         """
         # Choose the appropriate loader
@@ -203,17 +203,18 @@ class DataProcessor:
             paths = list(path)
             images, labels = images.to(self.device), labels.to(self.device)
             features = extract_features(images)
-            # avg_features = torch.mean(features, dim=[2, 3])
             features_list.extend(features.tolist())
             labels_list.extend(labels.tolist())
             paths_list.extend(paths)
 
         df = pd.DataFrame(features_list)
         if class_dict is not None:
-            labels_list = [class_dict[(item)] for item in labels_list]
+            labels_list = [class_dict[str(item)] for item in labels_list]
         df["label"] = labels_list
         df["path"] = paths_list
-
+        # sort to allow reproducibility later on
+        # EDIT STILL DOES NOT WORK
+        df.sort_values(by="path", inplace=True)
         # create a df with all features stored from train or test dataset
         df.to_csv("./all_features_test.csv", index=False) if test_data else df.to_csv(
             "./all_features_train.csv", index=False
