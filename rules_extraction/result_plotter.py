@@ -71,9 +71,7 @@ def plot_accuracy(rules, X_test, y_test, class_name=None, N=5, save_path=None):
     plt.show()
 
 
-def plot_rule_frontier(
-    self, df, rule, target_class, model=None, alpha=0.65, save_path=None
-):
+def plot_rule_frontier(df, rule, target_class, model=None, alpha=0.65, save_path=None):
     # Extracting rule conditions and threshold values
     conditions, threshold = rule
     feature_0, op_0, threshold_0 = (
