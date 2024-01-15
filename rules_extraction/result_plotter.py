@@ -6,7 +6,7 @@ from PIL import Image
 from rule_handler import RuleHandler
 
 
-def accuracy_N_rules(rules, X_test, y_test, N):
+def accuracy_n_rules(rules, X_test, y_test, n):
     """
     Compute accuracy using N rules.
 
@@ -16,9 +16,9 @@ def accuracy_N_rules(rules, X_test, y_test, N):
     :return: Tuple (n_rules_used, scores)
     """
     scores = []
-    n_rules_used = list(range(1, N + 1, 2))
-    for n in n_rules_used:
-        rule_handler = RuleHandler(rules=rules[:n])  # Limiting to n rules
+    n_rules_used = list(range(1, n + 1, 2))
+    for m in n_rules_used:
+        rule_handler = RuleHandler(rules=rules[:m])  # Limiting to n rules
         score = rule_handler.score(X_test, y_test, rule_handler.rules)
         scores.append(score)
 
@@ -35,7 +35,7 @@ def plot_accuracy(rules, X_test, y_test, class_name=None, N=5, save_path=None):
     :param N: int, maximum number of rules to consider
     :param save_path: str, if provided, the path where the plot will be saved
     """
-    n_rules_used, scores = accuracy_N_rules(rules, X_test, y_test, N)
+    n_rules_used, scores = accuracy_n_rules(rules, X_test, y_test, N)
 
     # Plotting logic starts here
     plt.figure(figsize=(10, 6))
@@ -72,6 +72,12 @@ def plot_accuracy(rules, X_test, y_test, class_name=None, N=5, save_path=None):
 
 
 def plot_frontier(df, rule, target_class, model=None, alpha=0.65, save_path=None):
+    def transform():
+        transform = transforms.Compose(
+            [transforms.Resize((224, 224)), transforms.ToTensor()]
+        )
+        return transform
+
     # Extracting rule conditions and threshold values
     conditions, threshold = rule
     feature_0, op_0, threshold_0 = (
@@ -99,12 +105,6 @@ def plot_frontier(df, rule, target_class, model=None, alpha=0.65, save_path=None
         img = Image.open(img_path)
         if model:
             img = img.resize((100, 100))  # Resizing the image to 100x100 pixels
-
-            def transform():
-                transform = transforms.Compose(
-                    [transforms.Resize((224, 224)), transforms.ToTensor()]
-                )
-                return transform
 
             device = torch.device("cuda")
             img_tensor = transform()(img).unsqueeze(0).to(device)
