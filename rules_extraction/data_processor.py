@@ -212,9 +212,9 @@ class DataProcessor:
             labels_list = [class_dict[str(item)] for item in labels_list]
         df["label"] = labels_list
         df["path"] = paths_list
+
         # sort to allow reproducibility later on
-        # EDIT STILL DOES NOT WORK
-        df.sort_values(by="path", inplace=True)
+        df.sort_values(by="path", inplace=False)
 
         # create a df with all features stored from train or test dataset
         df.to_csv("./all_features_test.csv", index=False) if test_data else df.to_csv(

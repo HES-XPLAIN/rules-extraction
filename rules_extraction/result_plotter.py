@@ -6,7 +6,7 @@ from PIL import Image
 from rule_handler import RuleHandler
 
 
-def _accuracy_N_rules(rules, X_test, y_test, N):
+def accuracy_N_rules(rules, X_test, y_test, N):
     """
     Compute accuracy using N rules.
 
@@ -35,7 +35,7 @@ def plot_accuracy(rules, X_test, y_test, class_name=None, N=5, save_path=None):
     :param N: int, maximum number of rules to consider
     :param save_path: str, if provided, the path where the plot will be saved
     """
-    n_rules_used, scores = _accuracy_N_rules(rules, X_test, y_test, N)
+    n_rules_used, scores = accuracy_N_rules(rules, X_test, y_test, N)
 
     # Plotting logic starts here
     plt.figure(figsize=(10, 6))
@@ -71,7 +71,7 @@ def plot_accuracy(rules, X_test, y_test, class_name=None, N=5, save_path=None):
     plt.show()
 
 
-def plot_rule_frontier(df, rule, target_class, model=None, alpha=0.65, save_path=None):
+def plot_frontier(df, rule, target_class, model=None, alpha=0.65, save_path=None):
     # Extracting rule conditions and threshold values
     conditions, threshold = rule
     feature_0, op_0, threshold_0 = (
