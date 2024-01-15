@@ -1,6 +1,6 @@
 [project]
 name = "rules-extraction"
-version = "0.0.2"
+version = "0.0.3"
 description = "Rules extraction for eXplainable AI"
 license = {text = "3-Clause BSD License" }
 authors = [
