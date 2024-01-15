@@ -175,6 +175,23 @@ def plot_rule_frontier(df, rule, target_class, model=None, alpha=0.65, save_path
     elif (op_0 == ">" or op_0 == ">=") and (op_1 == "<" or op_1 == "<="):
         ax.axvline(
             x=threshold_0,
+            ymin=y_frac,
+            ymax=1,
+            color="cyan",
+            linestyle="-",
+            linewidth=2,
+        )
+        ax.axhline(
+            y=threshold_1,
+            xmin=0,
+            xmax=x_frac,
+            color="cyan",
+            linestyle="-",
+            linewidth=2,
+        )
+    elif (op_0 == "<" or op_0 == "<=") and (op_1 == ">" or op_1 == ">="):
+        ax.axvline(
+            x=threshold_0,
             ymin=0,
             ymax=y_frac,
             color="cyan",
@@ -183,25 +200,8 @@ def plot_rule_frontier(df, rule, target_class, model=None, alpha=0.65, save_path
         )
         ax.axhline(
             y=threshold_1,
-            xmin=x_frac,
-            xmax=1,
-            color="cyan",
-            linestyle="-",
-            linewidth=2,
-        )
-    elif (op_0 == "<" or op_0 == "<=") and (op_1 == ">" or op_1 == ">="):
-        ax.axvline(
-            x=threshold_0,
-            ymin=y_frac,
-            ymax=1,
-            color="cyan",
-            linestyle="-",
-            linewidth=2,
-        )
-        ax.axhline(
-            y=threshold_1,
-            xmin=x_frac,
-            xmax=1,
+            xmin=0,
+            xmax=x_frac,
             color="cyan",
             linestyle="-",
             linewidth=2,
@@ -209,8 +209,8 @@ def plot_rule_frontier(df, rule, target_class, model=None, alpha=0.65, save_path
     elif (op_0 == "<" or op_0 == "<=") and (op_1 == "<" or op_1 == "<="):
         ax.axvline(
             x=threshold_0,
-            ymin=y_frac,
-            ymax=1,
+            ymin=0,
+            ymax=y_frac,
             color="cyan",
             linestyle="-",
             linewidth=2,
