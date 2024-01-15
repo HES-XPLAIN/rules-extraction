@@ -3,7 +3,8 @@ import numpy as np
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
-from rule_handler import RuleHandler
+
+from .rule_handler import RuleHandler
 
 
 def accuracy_n_rules(rules, X_test, y_test, n):
