@@ -62,7 +62,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#rules_extraction.random_forest_trainer.RandomForestTrainer"><code class="docutils literal notranslate"><span class="pre">RandomForestTrainer</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#rules-extraction-result-plotter-module">rules_extraction.result_plotter module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-rules_extraction.result_plotter">rules_extraction.result_plotter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rules_extraction.result_plotter.accuracy_n_rules"><code class="docutils literal notranslate"><span class="pre">accuracy_n_rules()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rules_extraction.result_plotter.plot_accuracy"><code class="docutils literal notranslate"><span class="pre">plot_accuracy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rules_extraction.result_plotter.plot_frontier"><code class="docutils literal notranslate"><span class="pre">plot_frontier()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#module-rules_extraction.rule_handler">rules_extraction.rule_handler module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#rules_extraction.rule_handler.RuleHandler"><code class="docutils literal notranslate"><span class="pre">RuleHandler</span></code></a></li>
 </ul>
@@ -307,8 +312,48 @@ Test data allow to create a separate test dataset, self.test_dataloader has to b
 </dd></dl>
 
 </section>
-<section id="rules-extraction-result-plotter-module">
-<h2>rules_extraction.result_plotter module<a class="headerlink" href="#rules-extraction-result-plotter-module" title="Link to this heading"></a></h2>
+<section id="module-rules_extraction.result_plotter">
+<span id="rules-extraction-result-plotter-module"></span><h2>rules_extraction.result_plotter module<a class="headerlink" href="#module-rules_extraction.result_plotter" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="rules_extraction.result_plotter.accuracy_n_rules">
+<span class="sig-prename descclassname"><span class="pre">rules_extraction.result_plotter.</span></span><span class="sig-name descname"><span class="pre">accuracy_n_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.result_plotter.accuracy_n_rules" title="Link to this definition"></a></dt>
+<dd><p>Compute accuracy using N rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_test</strong> – Test data features.</p></li>
+<li><p><strong>y_test</strong> – Test data labels.</p></li>
+<li><p><strong>N</strong> – Maximum number of rules to consider.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple (n_rules_used, scores)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rules_extraction.result_plotter.plot_accuracy">
+<span class="sig-prename descclassname"><span class="pre">rules_extraction.result_plotter.</span></span><span class="sig-name descname"><span class="pre">plot_accuracy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.result_plotter.plot_accuracy" title="Link to this definition"></a></dt>
+<dd><p>Plots and optionally saves a plot of accuracy vs. number of rules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_test</strong> – test data features</p></li>
+<li><p><strong>y_test</strong> – test data labels</p></li>
+<li><p><strong>class_name</strong> – string, name of the class</p></li>
+<li><p><strong>N</strong> – int, maximum number of rules to consider</p></li>
+<li><p><strong>save_path</strong> – str, if provided, the path where the plot will be saved</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rules_extraction.result_plotter.plot_frontier">
+<span class="sig-prename descclassname"><span class="pre">rules_extraction.result_plotter.</span></span><span class="sig-name descname"><span class="pre">plot_frontier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.65</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.result_plotter.plot_frontier" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 <section id="module-rules_extraction.rule_handler">
 <span id="rules-extraction-rule-handler-module"></span><h2>rules_extraction.rule_handler module<a class="headerlink" href="#module-rules_extraction.rule_handler" title="Link to this heading"></a></h2>
