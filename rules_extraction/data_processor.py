@@ -98,7 +98,6 @@ class DataProcessor:
                 # Convert local batch indices to global indices.
                 correct_global = i * self.dataloader.batch_size + correct_local
                 correct_indices_global.extend(correct_global)
-        print(correct_indices_global)
 
         # Create a new Subset of the original dataset using the correct indices.
         if test_data:
