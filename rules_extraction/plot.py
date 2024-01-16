@@ -3,7 +3,8 @@ import numpy as np
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
-from rules import EnsembleRule
+
+from .rules import EnsembleRule
 
 
 def plot_accuracy(rules, df_test, class_name=None, n=5, save_path=None):
