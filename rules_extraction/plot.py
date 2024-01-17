@@ -3,6 +3,7 @@ import numpy as np
 import torch
 import torchvision.transforms as transforms
 from PIL import Image
+
 from .rules import EnsembleRule
 
 
@@ -71,6 +72,17 @@ def transform():
 def plot_frontier(
     df, rule, target_class, model=None, alpha=0.65, save_path=None, device=None
 ):
+    """
+    Plots and optionally saves a plot showing one rule frontier and embedded images.
+
+    :param df: data that stores image label and path
+    :param rule: rule you want to plot, should be a Rule object
+    :param target_class: string, name of the class
+    :param model: torch model you used
+    :param alpha: float between 0 and 1, transparency level
+    :param save_path: str, if provided, the path where the plot will be saved
+    """
+
     df.columns = df.columns.astype(str)
     condition_0, condition_1 = rule.conditions
     feature_0, op_0, threshold_0 = rule._parse_condition(condition_0)
