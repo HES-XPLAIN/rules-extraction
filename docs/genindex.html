@@ -73,26 +73,24 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#A"><strong>A</strong></a>
+ <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
- | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
- | <a href="#V"><strong>V</strong></a>
  
 </div>
-<h2 id="A">A</h2>
+<h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.result_plotter.accuracy_n_rules">accuracy_n_rules() (in module rules_extraction.result_plotter)</a>
+      <li><a href="rules_extraction.html#rules_extraction.utils.compute_avg_features">compute_avg_features() (in module rules_extraction.utils)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -100,11 +98,7 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.data_to_rules">data_to_rules() (rules_extraction.rule_handler.RuleHandler method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.data_processor.DataProcessor">DataProcessor (class in rules_extraction.data_processor)</a>
+      <li><a href="rules_extraction.html#rules_extraction.rules.RuleRanker.data_to_rules">data_to_rules() (rules_extraction.rules.RuleRanker method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -112,19 +106,17 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.random_forest_trainer.RandomForestTrainer.evaluate">evaluate() (rules_extraction.random_forest_trainer.RandomForestTrainer method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.rules.EnsembleRule">EnsembleRule (class in rules_extraction.rules)</a>
 </li>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.evaluate_perceptron">evaluate_perceptron() (rules_extraction.rule_handler.RuleHandler method)</a>
-</li>
-      <li><a href="rules_extraction.html#rules_extraction.random_forest_trainer.RandomForestTrainer.extract_all_rules">extract_all_rules() (rules_extraction.random_forest_trainer.RandomForestTrainer method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.utils.extract_all_rules">extract_all_rules() (in module rules_extraction.utils)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.data_processor.DataProcessor.extract_features_resnet">extract_features_resnet() (rules_extraction.data_processor.DataProcessor method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.utils.extract_features_resnet">extract_features_resnet() (in module rules_extraction.utils)</a>
 </li>
-      <li><a href="rules_extraction.html#rules_extraction.data_processor.DataProcessor.extract_features_vgg">extract_features_vgg() (rules_extraction.data_processor.DataProcessor method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.utils.extract_features_vgg">extract_features_vgg() (in module rules_extraction.utils)</a>
 </li>
-      <li><a href="rules_extraction.html#rules_extraction.random_forest_trainer.RandomForestTrainer.extract_rules">extract_rules() (rules_extraction.random_forest_trainer.RandomForestTrainer method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.utils.extract_rules">extract_rules() (in module rules_extraction.utils)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -132,13 +124,17 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.data_processor.DataProcessor.filter_dataset">filter_dataset() (rules_extraction.data_processor.DataProcessor method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.utils.filter_dataset">filter_dataset() (in module rules_extraction.utils)</a>
 </li>
+      <li><a href="rules_extraction.html#rules_extraction.rules.EnsembleRule.fit">fit() (rules_extraction.rules.EnsembleRule method)</a>
+
+      <ul>
+        <li><a href="rules_extraction.html#rules_extraction.rules.Rule.fit">(rules_extraction.rules.Rule method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.random_forest_trainer.RandomForestTrainer.fit">fit() (rules_extraction.random_forest_trainer.RandomForestTrainer method)</a>
-</li>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.fit_perceptron">fit_perceptron() (rules_extraction.rule_handler.RuleHandler method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.rules.RuleRanker.fit_perceptron">fit_perceptron() (rules_extraction.rules.RuleRanker method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -158,19 +154,13 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.is_rule">is_rule() (rules_extraction.rule_handler.RuleHandler static method)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="L">L</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.load">load() (rules_extraction.rule_handler.RuleHandler method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.rules.RuleRanker.is_rule">is_rule() (rules_extraction.rules.RuleRanker static method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.load_rules">load_rules() (rules_extraction.rule_handler.RuleHandler static method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.utils.is_torch_loader">is_torch_loader() (in module rules_extraction.utils)</a>
+</li>
+      <li><a href="rules_extraction.html#rules_extraction.utils.is_torch_model">is_torch_model() (in module rules_extraction.utils)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -178,7 +168,7 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.data_processor.DataProcessor.make_target_df">make_target_df() (rules_extraction.data_processor.DataProcessor static method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.utils.make_target_df">make_target_df() (in module rules_extraction.utils)</a>
 </li>
       <li>
     module
@@ -186,15 +176,11 @@
       <ul>
         <li><a href="rules_extraction.html#module-rules_extraction">rules_extraction</a>
 </li>
-        <li><a href="rules_extraction.html#module-rules_extraction.data_processor">rules_extraction.data_processor</a>
-</li>
         <li><a href="rules_extraction.html#module-rules_extraction.hello">rules_extraction.hello</a>
 </li>
-        <li><a href="rules_extraction.html#module-rules_extraction.random_forest_trainer">rules_extraction.random_forest_trainer</a>
+        <li><a href="rules_extraction.html#module-rules_extraction.plot">rules_extraction.plot</a>
 </li>
-        <li><a href="rules_extraction.html#module-rules_extraction.result_plotter">rules_extraction.result_plotter</a>
-</li>
-        <li><a href="rules_extraction.html#module-rules_extraction.rule_handler">rules_extraction.rule_handler</a>
+        <li><a href="rules_extraction.html#module-rules_extraction.rules">rules_extraction.rules</a>
 </li>
         <li><a href="rules_extraction.html#module-rules_extraction.utils">rules_extraction.utils</a>
 </li>
@@ -209,7 +195,7 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.ops">ops (rules_extraction.rule_handler.RuleHandler attribute)</a>
+      <li><a href="rules_extraction.html#rules_extraction.rules.RuleRanker.ops">ops (rules_extraction.rules.RuleRanker attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -217,42 +203,37 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.result_plotter.plot_accuracy">plot_accuracy() (in module rules_extraction.result_plotter)</a>
+      <li><a href="rules_extraction.html#rules_extraction.plot.plot_accuracy">plot_accuracy() (in module rules_extraction.plot)</a>
 </li>
-      <li><a href="rules_extraction.html#rules_extraction.result_plotter.plot_frontier">plot_frontier() (in module rules_extraction.result_plotter)</a>
+      <li><a href="rules_extraction.html#rules_extraction.plot.plot_frontier">plot_frontier() (in module rules_extraction.plot)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.predict">predict() (rules_extraction.rule_handler.RuleHandler method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.rules.EnsembleRule.predict">predict() (rules_extraction.rules.EnsembleRule method)</a>
+
+      <ul>
+        <li><a href="rules_extraction.html#rules_extraction.rules.Rule.predict">(rules_extraction.rules.Rule method)</a>
 </li>
-      <li><a href="rules_extraction.html#rules_extraction.data_processor.DataProcessor.process_dataset">process_dataset() (rules_extraction.data_processor.DataProcessor method)</a>
-</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.random_forest_trainer.RandomForestTrainer">RandomForestTrainer (class in rules_extraction.random_forest_trainer)</a>
+      <li><a href="rules_extraction.html#rules_extraction.rules.RuleRanker.rank_rules">rank_rules() (rules_extraction.rules.RuleRanker method)</a>
 </li>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.rank_rules">rank_rules() (rules_extraction.rule_handler.RuleHandler method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.utils.recurse">recurse() (in module rules_extraction.utils)</a>
 </li>
-      <li><a href="rules_extraction.html#rules_extraction.random_forest_trainer.RandomForestTrainer.recurse">recurse() (rules_extraction.random_forest_trainer.RandomForestTrainer static method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.rules.Rule">Rule (class in rules_extraction.rules)</a>
 </li>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler">RuleHandler (class in rules_extraction.rule_handler)</a>
+      <li><a href="rules_extraction.html#rules_extraction.rules.RuleRanker">RuleRanker (class in rules_extraction.rules)</a>
 </li>
       <li>
     rules_extraction
 
       <ul>
         <li><a href="rules_extraction.html#module-rules_extraction">module</a>
-</li>
-      </ul></li>
-      <li>
-    rules_extraction.data_processor
-
-      <ul>
-        <li><a href="rules_extraction.html#module-rules_extraction.data_processor">module</a>
 </li>
       </ul></li>
       <li>
@@ -265,24 +246,17 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
-    rules_extraction.random_forest_trainer
+    rules_extraction.plot
 
       <ul>
-        <li><a href="rules_extraction.html#module-rules_extraction.random_forest_trainer">module</a>
+        <li><a href="rules_extraction.html#module-rules_extraction.plot">module</a>
 </li>
       </ul></li>
       <li>
-    rules_extraction.result_plotter
+    rules_extraction.rules
 
       <ul>
-        <li><a href="rules_extraction.html#module-rules_extraction.result_plotter">module</a>
-</li>
-      </ul></li>
-      <li>
-    rules_extraction.rule_handler
-
-      <ul>
-        <li><a href="rules_extraction.html#module-rules_extraction.rule_handler">module</a>
+        <li><a href="rules_extraction.html#module-rules_extraction.rules">module</a>
 </li>
       </ul></li>
       <li>
@@ -298,14 +272,12 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.save">save() (rules_extraction.rule_handler.RuleHandler method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.rules.EnsembleRule.score">score() (rules_extraction.rules.EnsembleRule method)</a>
+
+      <ul>
+        <li><a href="rules_extraction.html#rules_extraction.rules.Rule.score">(rules_extraction.rules.Rule method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.save_rules">save_rules() (rules_extraction.rule_handler.RuleHandler static method)</a>
-</li>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.score">score() (rules_extraction.rule_handler.RuleHandler method)</a>
-</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -318,8 +290,6 @@
 </li>
       <li><a href="tests.html#tests.test_hello.TestHello">TestHello (class in tests.test_hello)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     tests
 
@@ -327,6 +297,8 @@
         <li><a href="tests.html#module-tests">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     tests.test_hello
 
@@ -334,13 +306,7 @@
         <li><a href="tests.html#module-tests.test_hello">module</a>
 </li>
       </ul></li>
-  </ul></td>
-</tr></table>
-
-<h2 id="V">V</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="rules_extraction.html#rules_extraction.rule_handler.RuleHandler.visualize">visualize() (rules_extraction.rule_handler.RuleHandler method)</a>
+      <li><a href="rules_extraction.html#rules_extraction.plot.transform">transform() (in module rules_extraction.plot)</a>
 </li>
   </ul></td>
 </tr></table>

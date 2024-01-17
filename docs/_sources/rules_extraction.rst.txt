@@ -4,14 +4,6 @@ rules\_extraction package
 Submodules
 ----------
 
-rules\_extraction.data\_processor module
-----------------------------------------
-
-.. automodule:: rules_extraction.data_processor
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 rules\_extraction.hello module
 ------------------------------
 
@@ -20,26 +12,18 @@ rules\_extraction.hello module
    :undoc-members:
    :show-inheritance:
 
-rules\_extraction.random\_forest\_trainer module
-------------------------------------------------
+rules\_extraction.plot module
+-----------------------------
 
-.. automodule:: rules_extraction.random_forest_trainer
+.. automodule:: rules_extraction.plot
    :members:
    :undoc-members:
    :show-inheritance:
 
-rules\_extraction.result\_plotter module
-----------------------------------------
+rules\_extraction.rules module
+------------------------------
 
-.. automodule:: rules_extraction.result_plotter
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-rules\_extraction.rule\_handler module
---------------------------------------
-
-.. automodule:: rules_extraction.rule_handler
+.. automodule:: rules_extraction.rules
    :members:
    :undoc-members:
    :show-inheritance:
