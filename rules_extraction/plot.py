@@ -4,29 +4,10 @@ import torch
 import torchvision.transforms as transforms
 from PIL import Image
 
-from .rule_handler import RuleHandler
+from .rules import EnsembleRule
 
 
-def accuracy_n_rules(rules, X_test, y_test, n):
-    """
-    Compute accuracy using N rules.
-
-    :param X_test: Test data features.
-    :param y_test: Test data labels.
-    :param N: Maximum number of rules to consider.
-    :return: Tuple (n_rules_used, scores)
-    """
-    scores = []
-    n_rules_used = list(range(1, n + 1, 2))
-    for m in n_rules_used:
-        rule_handler = RuleHandler(rules=rules[:m])  # Limiting to n rules
-        score = rule_handler.score(X_test, y_test, rule_handler.rules)
-        scores.append(score)
-
-    return n_rules_used, scores
-
-
-def plot_accuracy(rules, X_test, y_test, class_name=None, N=5, save_path=None):
+def plot_accuracy(rules, df_test, class_name=None, n=5, save_path=None):
     """
     Plots and optionally saves a plot of accuracy vs. number of rules.
 
@@ -36,7 +17,16 @@ def plot_accuracy(rules, X_test, y_test, class_name=None, N=5, save_path=None):
     :param N: int, maximum number of rules to consider
     :param save_path: str, if provided, the path where the plot will be saved
     """
-    n_rules_used, scores = accuracy_n_rules(rules, X_test, y_test, N)
+
+    n_rules_used = list(range(1, n))
+    scores = []
+    X = df_test.drop(columns=["path", "label", "binary_label"])
+    y = df_test["binary_label"]
+
+    for m in n_rules_used:
+        ensemble_rule = EnsembleRule(rules[:m])
+        score = ensemble_rule.score(X, y)
+        scores.append(score)
 
     # Plotting logic starts here
     plt.figure(figsize=(10, 6))
@@ -72,25 +62,31 @@ def plot_accuracy(rules, X_test, y_test, class_name=None, N=5, save_path=None):
     plt.show()
 
 
-def plot_frontier(df, rule, target_class, model=None, alpha=0.65, save_path=None):
-    def transform():
-        transform = transforms.Compose(
-            [transforms.Resize((224, 224)), transforms.ToTensor()]
-        )
-        return transform
+def transform():
+    transform = transforms.Compose(
+        [transforms.Resize((224, 224)), transforms.ToTensor()]
+    )
+    return transform
 
-    # Extracting rule conditions and threshold values
-    conditions, threshold = rule
-    feature_0, op_0, threshold_0 = (
-        conditions[0].split()[0],
-        conditions[0].split()[1],
-        float(conditions[0].split()[2]),
-    )
-    feature_1, op_1, threshold_1 = (
-        conditions[1].split()[0],
-        conditions[1].split()[1],
-        float(conditions[1].split()[2]),
-    )
+
+def plot_frontier(
+    df, rule, target_class, model=None, alpha=0.65, save_path=None, device=None
+):
+    """
+    Plots and optionally saves a plot showing one rule frontier and embedded images.
+
+    :param df: data that stores image label and path
+    :param rule: rule you want to plot, should be a Rule object
+    :param target_class: string, name of the class
+    :param model: torch model you used
+    :param alpha: float between 0 and 1, transparency level
+    :param save_path: str, if provided, the path where the plot will be saved
+    """
+
+    df.columns = df.columns.astype(str)
+    condition_0, condition_1 = rule.conditions
+    feature_0, op_0, threshold_0 = rule._parse_condition(condition_0)
+    feature_1, op_1, threshold_1 = rule._parse_condition(condition_1)
 
     row_target = df[df["label"] == target_class].index.tolist()
     row_non_target = (
@@ -101,13 +97,15 @@ def plot_frontier(df, rule, target_class, model=None, alpha=0.65, save_path=None
 
     fig, ax = plt.subplots(figsize=(12, 10))
 
+    if not device:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
     for row in row_target + row_non_target:
         img_path = df.loc[row, "path"]
         img = Image.open(img_path)
         if model:
             img = img.resize((100, 100))  # Resizing the image to 100x100 pixels
 
-            device = torch.device("cuda")
             img_tensor = transform()(img).unsqueeze(0).to(device)
             feature_maps = model.features(img_tensor)
 
