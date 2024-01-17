@@ -191,6 +191,7 @@ class EnsembleRule(BaseEstimator, ClassifierMixin):
 
         scores = np.array([rule.predict(X) for rule in self.rules]).T
         average_scores = np.mean(scores, axis=1)
+        # Assign True (data point == label) when the average rule voting score is equal
         predictions = (average_scores >= 0.5).astype(int)
 
         return predictions

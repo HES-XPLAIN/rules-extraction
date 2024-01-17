@@ -1,13 +1,49 @@
 import numpy as np
 import pandas as pd
 import torch
+import torch.utils.data
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import _tree
 
 
-def compute_features(model, loader, class_dict, device):
-    # here loader can be train, test, filtered or not
+def compute_avg_features(model, loader, class_dict, device):
+    """
+    Compute average features for images using a pre-trained PyTorch model.
 
+    Parameters
+    ----------
+    model : torch.nn.Module
+        Pre-trained PyTorch neural network model.
+    loader : torch.utils.data.DataLoader
+        Data loader containing images and labels.
+    class_dict : dict or None
+        A dictionary mapping class indices to class labels. If None, class indices are used as labels.
+    device : torch.device
+        Device (CPU or GPU) on which the computation will be performed.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame containing computed average features, labels, and file paths for each image.
+
+    Raises
+    ------
+    TypeError
+        If the provided model is not a PyTorch module or loader not a PyTorch dataloader.
+
+    Notes
+    -----
+    This function computes the average features for images using the provided pre-trained model and data loader.
+    The resulting DataFrame includes features, labels, and file paths, which are saved to "./features_map.csv".
+    """
+
+    if not is_torch_model(model):
+        raise TypeError("The provided object should be a PyTorch module.")
+
+    if not is_torch_loader(loader):
+        raise TypeError("The provided object should be a PyTorch DataLoader.")
+
+    # here loader can be train, test, filtered or not
     features_list, labels_list, paths_list = [], [], []
 
     for images, labels, path in loader:
@@ -24,16 +60,75 @@ def compute_features(model, loader, class_dict, device):
     df["label"] = labels_list
     df["path"] = paths_list
 
-    # create a df with all features stored from train or test dataset
-    # df.to_csv("./features_map.csv", index=False)
+    # create a df with all data from loader avg last feature map
+    df.to_csv("./features_map.csv", index=False)
     return df
+
+
+def is_torch_model(obj):
+    """
+    Check if the given object is a PyTorch model.
+
+    :param obj: any
+        The object to be checked.
+
+    :return: bool
+        True if the object is a PyTorch model, False otherwise.
+    """
+    return isinstance(obj, torch.nn.Module)
+
+
+def is_torch_loader(obj):
+    """
+    Check if the given object is a PyTorch DataLoader.
+
+    :param obj: any
+        The object to be checked.
+
+    :return: bool
+        True if the object is a PyTorch DataLoader, False otherwise.
+    """
+    return isinstance(obj, torch.utils.data.DataLoader)
 
 
 def filter_dataset(model, loader, device):
     """
-    Use a loader and a model and return the list of correct predicted datapoint index in the loader by the model.
-    This function allow to create a filtered loader using the index list
+    Use a PyTorch DataLoader and a PyTorch model to identify and return the indices of correctly predicted datapoints.
+
+    This function allows creating a filtered loader using the obtained index list.
+
+    Parameters
+    ----------
+    model : torch.nn.Module
+        A pre-trained PyTorch model.
+    loader : torch.utils.data.DataLoader
+        DataLoader containing images, labels, and image paths.
+    device : torch.device
+        Device (CPU or GPU) on which the computation will be performed.
+
+    Returns
+    -------
+    list
+        List of indices corresponding to correctly predicted datapoints in the loader.
+
+    Raises
+    ------
+    TypeError
+        If the provided `model` is not a PyTorch module or the `loader` is not a PyTorch DataLoader.
+
+    Notes
+    -----
+    This function iterates over the provided DataLoader, evaluates the model on each batch,
+    and identifies the indices of correct predictions. The resulting list of indices can be used
+    to create a filtered loader for further analysis or evaluation.
     """
+
+    if not is_torch_model(model):
+        raise TypeError("The provided object should be a PyTorch module.")
+
+    if not is_torch_loader(loader):
+        raise TypeError("The provided object should be a PyTorch DataLoader.")
+
     correct_indices_global = []
 
     model = model.eval()
@@ -92,7 +187,7 @@ def make_target_df(df_features, target_class):
 
     Parameters
     ----------
-    df : pd.DataFrame
+    df_features : pd.DataFrame
         input DataFrame
     target_class : int or str
         class label to be considered as target (1)
@@ -155,18 +250,20 @@ def extract_rules(tree, feature_columns):
     return rules_list
 
 
-def extract_all_rules(model, X, y, **kwargs):
+def extract_all_rules(X, y, **kwargs):
     """
     Extract rules from all the trees in the random forest.
 
-    :param verbose: Control the verbosity of messages printed to console.
-        - 0: No output
-        - 1: Print the total number of extracted rules (default)
-        - 2+: Any other detailed messages, if applicable
-    :type verbose: int
+    :param X: array-like or pd.DataFrame
+        The input samples.
+    :param y: array-like
+        The target values.
+    :param **kwargs: Additional parameters to configure the RandomForestClassifier.
+        - n_estimators: The number of trees in the forest (default=100).
+        - Other parameters available in RandomForestClassifier.
+
     :return: List of all extracted rules.
     :rtype: list
-    :raises AssertionError: If model has not been trained yet.
     """
     rf = RandomForestClassifier(**kwargs)
     rf.fit(X, y)
