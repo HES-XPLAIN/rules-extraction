@@ -86,6 +86,11 @@ class Rule(BaseEstimator):
         """
         if isinstance(X, pd.Series):
             X = pd.DataFrame([X])
+        elif not isinstance(X, (pd.DataFrame, np.ndarray)):
+            raise ValueError("Input must be a Pandas DataFrame or a NumPy array.")
+
+        if isinstance(X, np.ndarray):
+            X = pd.DataFrame(X)
 
         predictions = []
         for _, data_point in X.iterrows():
@@ -178,6 +183,11 @@ class EnsembleRule(BaseEstimator, ClassifierMixin):
         """
         if isinstance(X, pd.Series):
             X = pd.DataFrame([X])
+        elif not isinstance(X, (pd.DataFrame, np.ndarray)):
+            raise ValueError("Input must be a Pandas DataFrame or a NumPy array.")
+
+        if isinstance(X, np.ndarray):
+            X = pd.DataFrame(X)
 
         scores = np.array([rule.predict(X) for rule in self.rules]).T
         average_scores = np.mean(scores, axis=1)
