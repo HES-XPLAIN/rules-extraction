@@ -7,15 +7,17 @@ Rules extraction for eXplainable AI
 
 ## Contribution
 
-### Install dependencies
+### Install Python
 
-#### Using pip
+Install [Python](https://www.python.org/):
 
-```shell
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.lock
-```
+#### Manually
+
+* **Linux, macOS, Windows/WSL**: Use your package manager to install `python3` and `python3-dev`
+* **Windows**: `winget install Python.Python.3.11`
+
+> [!IMPORTANT]
+> On Windows, avoid installing Python through the Microsoft Store as the package has additional permission restrictions.
 
 #### Using Rye
 
@@ -30,6 +32,19 @@ To check the installation, check the following commands return an output:
 rye --version
 ```
 
+### Install dependencies
+
+#### Using pip
+
+```shell
+python -m venv .venv
+source .venv/bin/activate
+pip install .
+```
+To leave the virtualenv, use `deactivate`.
+
+#### Using Rye
+
 Install python dependencies and activate the virtualenv:
 
 ```shell
@@ -37,10 +52,21 @@ rye sync
 rye shell
 ```
 
+To leave the virtualenv, use `exit`.
+
+#### Add dependencies
+
+To add new dependencies to the project, either add them to the `pyproject.toml` file or use `rye add <dependency>`.
+To add them to the virtualenv, use `pip install .` or `rye sync`.
+
 ### Install Pre-commit hooks
 
 Git hooks are used to ensure quality checks are run by all developers every time
 before a commit.
+
+Install with `pip install pre-commit` or`rye sync`.
+
+To enable pre-commit:
 
 ```shell
 pre-commit install
