@@ -3,38 +3,28 @@
 Rules extraction for eXplainable AI
 
 * [Documentation](https://hes-xplain.github.io/rules-extraction/docs/)
-* [Coverage](https://hes-xplain.github.io/rules-extraction/cov/)
+
+## Installation
+
+```
+pip install rules-extraction
+```
 
 ## Contribution
 
 ### Install Python
 
-Install [Python](https://www.python.org/):
-
-#### Manually
+Install [Python](https://www.python.org/), version 3.8.1 or newer (3.11 recommanded):
 
 * **Linux, macOS, Windows/WSL**: Use your package manager to install `python3` and `python3-dev`
 * **Windows**: `winget install Python.Python.3.11`
 
-> [!IMPORTANT]
+> [!WARNING]
 > On Windows, avoid installing Python through the Microsoft Store as the package has additional permission restrictions.
-
-#### Using Rye
-
-- Install [Rye](https://rye-up.com/) and [add shims](https://rye-up.com/guide/installation/) to your PATH.
-
-Ensure `rye` is accessible in the `$PATH` environment variable.
-Rye will automatically download the suitable Python toolchain as needed.
-
-To check the installation, check the following commands return an output:
-
-```shell
-rye --version
-```
 
 ### Install dependencies
 
-#### Using pip
+Using pip
 
 ```shell
 python -m venv .venv
@@ -45,18 +35,14 @@ pip install .
 > [!NOTE]
 > On Windows, use `.venv\Scripts\activate` instead.
 
-#### Using Rye
-
-Install python dependencies and create a virtualenv in `.venv`:
-
-```shell
-rye sync
-```
-
 #### Add dependencies
 
-To add new dependencies to the project, either add them to the `pyproject.toml` file or use `rye add <dependency>`.
-To add them to the virtualenv, use `pip install .` or `rye sync`.
+To add new dependencies to the project, add them to the `pyproject.toml` file.
+To add them to the virtualenv, use:
+
+```
+pip install .
+```
 
 ### Work with virtualenv
 
@@ -72,7 +58,7 @@ To leave the virtualenv, use `deactivate`.
 Git hooks are used to ensure quality checks are run by all developers every time
 before a commit.
 
-Install with `pip install pre-commit` or`rye sync`.
+Install with `pip install pre-commit`.
 
 To enable pre-commit:
 
