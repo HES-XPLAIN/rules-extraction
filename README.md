@@ -14,7 +14,7 @@ pip install rules-extraction
 
 ### Install Python
 
-Install [Python](https://www.python.org/), version 3.8.1 or newer (3.11 recommanded):
+Install [Python](https://www.python.org/), version 3.9 or newer (3.11 recommanded):
 
 * **Linux, macOS, Windows/WSL**: Use your package manager to install `python3` and `python3-dev`
 * **Windows**: `winget install Python.Python.3.11`
