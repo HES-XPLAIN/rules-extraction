@@ -4,14 +4,6 @@ rules\_extraction package
 Submodules
 ----------
 
-rules\_extraction.hello module
-------------------------------
-
-.. automodule:: rules_extraction.hello
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 rules\_extraction.plot module
 -----------------------------
 
