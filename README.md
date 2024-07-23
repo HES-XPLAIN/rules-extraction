@@ -2,7 +2,7 @@
 
 Rules extraction for eXplainable AI
 
-* [Documentation](https://hes-xplain.github.io/rules-extraction/docs/)
+* [Documentation](https://hes-xplain.github.io/rules-extraction/)
 
 ## Installation
 
