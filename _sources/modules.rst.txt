@@ -5,4 +5,3 @@ rules-extraction
    :maxdepth: 4
 
    rules_extraction
-   tests
