@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import _tree
 
 
-def compute_avg_features(model, loader, class_dict, device):
+def compute_avg_features(model, loader, class_dict, device, save_csv=False):
     """
     Compute average features for images using a pre-trained PyTorch model.
 
@@ -15,16 +15,19 @@ def compute_avg_features(model, loader, class_dict, device):
     model : torch.nn.Module
         Pre-trained PyTorch neural network model.
     loader : torch.utils.data.DataLoader
-        Data loader containing images and labels.
+        Data loader containing images and labels, and optionally file paths.
     class_dict : dict or None
         A dictionary mapping class indices to class labels. If None, class indices are used as labels.
     device : torch.device
         Device (CPU or GPU) on which the computation will be performed.
 
+    save_csv : bool, optional
+        If True, save the resulting DataFrame to a CSV file. Default is False.
+
     Returns
     -------
     pd.DataFrame
-        DataFrame containing computed average features, labels, and file paths for each image.
+        DataFrame containing computed average features, labels, and file paths (if available) for each image.
 
     Raises
     ------
@@ -34,7 +37,8 @@ def compute_avg_features(model, loader, class_dict, device):
     Notes
     -----
     This function computes the average features for images using the provided pre-trained model and data loader.
-    The resulting DataFrame includes features, labels, and file paths, which are saved to "./features_map.csv".
+    The resulting DataFrame includes features, labels, and file paths (if available).
+    If save_csv is True, the DataFrame is saved to "./features_map.csv".
     """
 
     if not is_torch_model(model):
@@ -46,13 +50,22 @@ def compute_avg_features(model, loader, class_dict, device):
     # here loader can be train, test, filtered or not
     features_list, labels_list, paths_list = [], [], []
 
-    for images, labels, path in loader:
-        paths = list(path)
+    for batch in loader:
+        if len(batch) == 2:
+            images, labels = batch
+            paths = None
+        elif len(batch) == 3:
+            images, labels, paths = batch
+        else:
+            raise ValueError("Loader should yield batches of 2 or 3 elements.")
+
         images, labels = images.to(device), labels.to(device)
         features = extract_features_vgg(model, images)
         features_list.extend(features.tolist())
         labels_list.extend(labels.tolist())
-        paths_list.extend(paths)
+
+        if paths is not None:
+            paths_list.extend(list(paths))
 
     df = pd.DataFrame(features_list)
     if class_dict is not None:
@@ -60,8 +73,10 @@ def compute_avg_features(model, loader, class_dict, device):
     df["label"] = labels_list
     df["path"] = paths_list
 
-    # create a df with all data from loader avg last feature map
-    df.to_csv("./features_map.csv", index=False)
+    # Save the DataFrame to CSV only if save_csv is True
+    if save_csv:
+        df.to_csv("./features_map.csv", index=False)
+
     return df
 
 
@@ -132,7 +147,14 @@ def filter_dataset(model, loader, device):
     correct_indices_global = []
 
     model = model.eval()
-    for i, (image, label, image_path) in enumerate(loader):
+    for i, batch in enumerate(loader):
+        if len(batch) == 2:
+            image, label = batch
+        elif len(batch) == 3:
+            image, label, _ = batch
+        else:
+            raise ValueError("Loader should yield batches of 2 or 3 elements.")
+
         image, label = image.to(device), label.to(device)
         with torch.no_grad():
             logits = model(image)
