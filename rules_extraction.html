@@ -439,19 +439,20 @@ Expected to be a tuple of (list, int).</p></li>
 <span id="rules-extraction-utils-module"></span><h2>rules_extraction.utils module<a class="headerlink" href="#module-rules_extraction.utils" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="rules_extraction.utils.compute_avg_features">
-<span class="sig-prename descclassname"><span class="pre">rules_extraction.utils.</span></span><span class="sig-name descname"><span class="pre">compute_avg_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.utils.compute_avg_features" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">rules_extraction.utils.</span></span><span class="sig-name descname"><span class="pre">compute_avg_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_csv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.utils.compute_avg_features" title="Link to this definition"></a></dt>
 <dd><p>Compute average features for images using a pre-trained PyTorch model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> (<em>torch.nn.Module</em>) – Pre-trained PyTorch neural network model.</p></li>
-<li><p><strong>loader</strong> (<em>torch.utils.data.DataLoader</em>) – Data loader containing images and labels.</p></li>
+<li><p><strong>loader</strong> (<em>torch.utils.data.DataLoader</em>) – Data loader containing images and labels, and optionally file paths.</p></li>
 <li><p><strong>class_dict</strong> (<em>dict</em><em> or </em><em>None</em>) – A dictionary mapping class indices to class labels. If None, class indices are used as labels.</p></li>
 <li><p><strong>device</strong> (<em>torch.device</em>) – Device (CPU or GPU) on which the computation will be performed.</p></li>
+<li><p><strong>save_csv</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, save the resulting DataFrame to a CSV file. Default is False.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame containing computed average features, labels, and file paths for each image.</p>
+<dd class="field-even"><p>DataFrame containing computed average features, labels, and file paths (if available) for each image.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pd.DataFrame</p>
@@ -462,7 +463,8 @@ Expected to be a tuple of (list, int).</p></li>
 </dl>
 <p class="rubric">Notes</p>
 <p>This function computes the average features for images using the provided pre-trained model and data loader.
-The resulting DataFrame includes features, labels, and file paths, which are saved to “./features_map.csv”.</p>
+The resulting DataFrame includes features, labels, and file paths (if available).
+If save_csv is True, the DataFrame is saved to “./features_map.csv”.</p>
 </dd></dl>
 
 <dl class="py function">
