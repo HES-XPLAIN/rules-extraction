@@ -9,27 +9,27 @@ from sklearn.tree import _tree
 
 
 def compute_avg_features(
-    model,
-    loader,
-    class_dict,
-    device,
+    model=None,
+    loader=None,
+    class_dict=None,
+    device=None,
     use_existing=False,
     save_csv=None,
     csv_path="./features_map.csv",
 ):
     """
-    Compute average features for images using a pre-trained PyTorch model.
+    Compute average features for images using a pre-trained PyTorch model or load from existing CSV.
 
     Parameters
     ----------
-    model : torch.nn.Module
-        Pre-trained PyTorch neural network model.
-    loader : torch.utils.data.DataLoader
-        Data loader containing images and labels, and optionally file paths.
-    class_dict : dict or None
+    model : torch.nn.Module, optional
+        Pre-trained PyTorch neural network model. Required if use_existing=False.
+    loader : torch.utils.data.DataLoader, optional
+        Data loader containing images and labels, and optionally file paths. Required if use_existing=False.
+    class_dict : dict or None, optional
         A dictionary mapping class indices to class labels. If None, class indices are used as labels.
-    device : torch.device
-        Device (CPU or GPU) on which the computation will be performed.
+    device : torch.device, optional
+        Device (CPU or GPU) on which the computation will be performed. Required if use_existing=False.
     use_existing : bool, optional
         If True, use existing CSV if available. If False, always compute new features. Default is False.
     csv_path : str, optional
@@ -45,58 +45,62 @@ def compute_avg_features(
     Raises
     ------
     TypeError
-        If the provided model is not a PyTorch module or loader not a PyTorch dataloader.
+        If use_existing=False and the provided model is not a PyTorch module or loader not a PyTorch dataloader.
+    ValueError
+        If use_existing=False and required parameters (model, loader, device) are not provided.
 
     Notes
     -----
-    This function computes the average features for images using the provided pre-trained model and data loader.
-    The resulting DataFrame includes features, labels, and file paths (if available).
-    If use_existing is True and a CSV file exists, it will be loaded instead of computing new features.
-    If computing new features, the DataFrame will be saved to csv_path if save_csv is True or None.
+    If use_existing=True and the CSV file exists, it will be loaded without using other parameters.
+    If use_existing=False, new features will be computed using the provided model and loader.
     """
 
     if use_existing and os.path.exists(csv_path):
         print(f"Loading existing features from {csv_path}")
         return pd.read_csv(csv_path)
 
-    if not is_torch_model(model):
-        raise TypeError("The provided object should be a PyTorch module.")
+    if not use_existing:
+        if model is None or loader is None or device is None:
+            raise ValueError("model, loader, and device are required when use_existing=False")
 
-    if not is_torch_loader(loader):
-        raise TypeError("The provided object should be a PyTorch DataLoader.")
+        if not is_torch_model(model):
+            raise TypeError("The provided object should be a PyTorch module.")
 
-    # here loader can be train, test, filtered or not
-    features_list, labels_list, paths_list = [], [], []
+        if not is_torch_loader(loader):
+            raise TypeError("The provided object should be a PyTorch DataLoader.")
 
-    for batch in loader:
-        if len(batch) == 2:
-            images, labels = batch
-            paths = None
-        elif len(batch) == 3:
-            images, labels, paths = batch
-        else:
-            raise ValueError("Loader should yield batches of 2 or 3 elements.")
+        # here loader can be train, test, filtered or not
+        features_list, labels_list, paths_list = [], [], []
 
-        images, labels = images.to(device), labels.to(device)
-        features = extract_features_vgg(model, images)
-        features_list.extend(features.tolist())
-        labels_list.extend(labels.tolist())
+        for batch in loader:
+            if len(batch) == 2:
+                images, labels = batch
+                paths = None
+            elif len(batch) == 3:
+                images, labels, paths = batch
+            else:
+                raise ValueError("Loader should yield batches of 2 or 3 elements.")
 
-        if paths is not None:
-            paths_list.extend(list(paths))
+            images, labels = images.to(device), labels.to(device)
+            features = extract_features_vgg(model, images)
+            features_list.extend(features.tolist())
+            labels_list.extend(labels.tolist())
 
-    df = pd.DataFrame(features_list)
-    if class_dict is not None:
-        labels_list = [class_dict[str(item)] for item in labels_list]
-    df["label"] = labels_list
-    df["path"] = paths_list
+            if paths is not None:
+                paths_list.extend(list(paths))
 
-    # Save the DataFrame to CSV if save_csv is True or None (default when computing new features)
-    if save_csv or (save_csv is None and not use_existing):
-        df.to_csv(csv_path, index=False)
-        print(f"Features map saved to {csv_path}")
+        df = pd.DataFrame(features_list)
+        if class_dict is not None:
+            labels_list = [class_dict[str(item)] for item in labels_list]
+        df["label"] = labels_list
+        df["path"] = paths_list
 
-    return df
+        # Save the DataFrame to CSV if save_csv is True or None (default when computing new features)
+        if save_csv or (save_csv is None and not use_existing):
+            df.to_csv(csv_path, index=False)
+            print(f"Features map saved to {csv_path}")
+
+        return df
 
 
 def is_torch_model(obj):
