@@ -96,7 +96,7 @@ def _process_batches(model, loader, device):
         labels_list.extend(labels.tolist())
         if paths is not None:
             paths_list.extend(list(paths))
-    return features_list, labels_list, paths_list
+    return features_list, labels_list, paths_list if paths_list else None
 
 
 def _unpack_batch(batch):
