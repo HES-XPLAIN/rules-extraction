@@ -54,55 +54,73 @@ def compute_avg_features(
     If use_existing=True and the CSV file exists, it will be loaded without using other parameters.
     If use_existing=False, new features will be computed using the provided model and loader.
     """
+    if use_existing:
+        return _load_existing_features(csv_path)
 
-    if use_existing and os.path.exists(csv_path):
+    _validate_inputs(model, loader, device)
+
+    features_list, labels_list, paths_list = _process_batches(model, loader, device)
+
+    df = _create_dataframe(features_list, labels_list, paths_list, class_dict)
+
+    _save_features(df, save_csv, use_existing, csv_path)
+
+    return df
+
+
+def _load_existing_features(csv_path):
+    if os.path.exists(csv_path):
         print(f"Loading existing features from {csv_path}")
         return pd.read_csv(csv_path)
+    return None
 
-    if not use_existing:
-        if model is None or loader is None or device is None:
-            raise ValueError(
-                "model, loader, and device are required when use_existing=False"
-            )
 
-        if not is_torch_model(model):
-            raise TypeError("The provided object should be a PyTorch module.")
+def _validate_inputs(model, loader, device):
+    if model is None or loader is None or device is None:
+        raise ValueError(
+            "model, loader, and device are required when use_existing=False"
+        )
+    if not is_torch_model(model):
+        raise TypeError("The provided object should be a PyTorch module.")
+    if not is_torch_loader(loader):
+        raise TypeError("The provided object should be a PyTorch DataLoader.")
 
-        if not is_torch_loader(loader):
-            raise TypeError("The provided object should be a PyTorch DataLoader.")
 
-        # here loader can be train, test, filtered or not
-        features_list, labels_list, paths_list = [], [], []
+def _process_batches(model, loader, device):
+    features_list, labels_list, paths_list = [], [], []
+    for batch in loader:
+        images, labels, paths = _unpack_batch(batch)
+        images, labels = images.to(device), labels.to(device)
+        features = extract_features_vgg(model, images)
+        features_list.extend(features.tolist())
+        labels_list.extend(labels.tolist())
+        if paths is not None:
+            paths_list.extend(list(paths))
+    return features_list, labels_list, paths_list
 
-        for batch in loader:
-            if len(batch) == 2:
-                images, labels = batch
-                paths = None
-            elif len(batch) == 3:
-                images, labels, paths = batch
-            else:
-                raise ValueError("Loader should yield batches of 2 or 3 elements.")
 
-            images, labels = images.to(device), labels.to(device)
-            features = extract_features_vgg(model, images)
-            features_list.extend(features.tolist())
-            labels_list.extend(labels.tolist())
+def _unpack_batch(batch):
+    if len(batch) == 2:
+        return batch[0], batch[1], None
+    elif len(batch) == 3:
+        return batch
+    else:
+        raise ValueError("Loader should yield batches of 2 or 3 elements.")
 
-            if paths is not None:
-                paths_list.extend(list(paths))
 
-        df = pd.DataFrame(features_list)
-        if class_dict is not None:
-            labels_list = [class_dict[str(item)] for item in labels_list]
-        df["label"] = labels_list
-        df["path"] = paths_list
+def _create_dataframe(features_list, labels_list, paths_list, class_dict):
+    df = pd.DataFrame(features_list)
+    if class_dict is not None:
+        labels_list = [class_dict[str(item)] for item in labels_list]
+    df["label"] = labels_list
+    df["path"] = paths_list
+    return df
 
-        # Save the DataFrame to CSV if save_csv is True or None (default when computing new features)
-        if save_csv or (save_csv is None and not use_existing):
-            df.to_csv(csv_path, index=False)
-            print(f"Features map saved to {csv_path}")
 
-        return df
+def _save_features(df, save_csv, use_existing, csv_path):
+    if save_csv or (save_csv is None and not use_existing):
+        df.to_csv(csv_path, index=False)
+        print(f"Features map saved to {csv_path}")
 
 
 def is_torch_model(obj):
