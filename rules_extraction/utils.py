@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pandas as pd
 import torch
@@ -6,7 +8,15 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import _tree
 
 
-def compute_avg_features(model, loader, class_dict, device, save_csv=False):
+def compute_avg_features(
+    model,
+    loader,
+    class_dict,
+    device,
+    use_existing=False,
+    save_csv=None,
+    csv_path="./features_map.csv",
+):
     """
     Compute average features for images using a pre-trained PyTorch model.
 
@@ -20,9 +30,12 @@ def compute_avg_features(model, loader, class_dict, device, save_csv=False):
         A dictionary mapping class indices to class labels. If None, class indices are used as labels.
     device : torch.device
         Device (CPU or GPU) on which the computation will be performed.
-
-    save_csv : bool, optional
-        If True, save the resulting DataFrame to a CSV file. Default is False.
+    use_existing : bool, optional
+        If True, use existing CSV if available. If False, always compute new features. Default is False.
+    csv_path : str, optional
+        Path to save or load the CSV file. Default is "./features_map.csv".
+    save_csv : bool or None, optional
+        If True, save the resulting DataFrame to a CSV file. If None (default), save only when computing new features.
 
     Returns
     -------
@@ -38,8 +51,13 @@ def compute_avg_features(model, loader, class_dict, device, save_csv=False):
     -----
     This function computes the average features for images using the provided pre-trained model and data loader.
     The resulting DataFrame includes features, labels, and file paths (if available).
-    If save_csv is True, the DataFrame is saved to "./features_map.csv".
+    If use_existing is True and a CSV file exists, it will be loaded instead of computing new features.
+    If computing new features, the DataFrame will be saved to csv_path if save_csv is True or None.
     """
+
+    if use_existing and os.path.exists(csv_path):
+        print(f"Loading existing features from {csv_path}")
+        return pd.read_csv(csv_path)
 
     if not is_torch_model(model):
         raise TypeError("The provided object should be a PyTorch module.")
@@ -73,9 +91,10 @@ def compute_avg_features(model, loader, class_dict, device, save_csv=False):
     df["label"] = labels_list
     df["path"] = paths_list
 
-    # Save the DataFrame to CSV only if save_csv is True
-    if save_csv:
-        df.to_csv("./features_map.csv", index=False)
+    # Save the DataFrame to CSV if save_csv is True or None (default when computing new features)
+    if save_csv or (save_csv is None and not use_existing):
+        df.to_csv(csv_path, index=False)
+        print(f"Features map saved to {csv_path}")
 
     return df
 
