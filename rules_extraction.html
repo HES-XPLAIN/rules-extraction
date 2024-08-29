@@ -439,15 +439,15 @@ Expected to be a tuple of (list, int).</p></li>
 <span id="rules-extraction-utils-module"></span><h2>rules_extraction.utils module<a class="headerlink" href="#module-rules_extraction.utils" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="rules_extraction.utils.compute_avg_features">
-<span class="sig-prename descclassname"><span class="pre">rules_extraction.utils.</span></span><span class="sig-name descname"><span class="pre">compute_avg_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_existing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_csv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./features_map.csv'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.utils.compute_avg_features" title="Link to this definition"></a></dt>
-<dd><p>Compute average features for images using a pre-trained PyTorch model.</p>
+<span class="sig-prename descclassname"><span class="pre">rules_extraction.utils.</span></span><span class="sig-name descname"><span class="pre">compute_avg_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_existing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_csv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./features_map.csv'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#rules_extraction.utils.compute_avg_features" title="Link to this definition"></a></dt>
+<dd><p>Compute average features for images using a pre-trained PyTorch model or load from existing CSV.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>torch.nn.Module</em>) – Pre-trained PyTorch neural network model.</p></li>
-<li><p><strong>loader</strong> (<em>torch.utils.data.DataLoader</em>) – Data loader containing images and labels, and optionally file paths.</p></li>
-<li><p><strong>class_dict</strong> (<em>dict</em><em> or </em><em>None</em>) – A dictionary mapping class indices to class labels. If None, class indices are used as labels.</p></li>
-<li><p><strong>device</strong> (<em>torch.device</em>) – Device (CPU or GPU) on which the computation will be performed.</p></li>
+<li><p><strong>model</strong> (<em>torch.nn.Module</em><em>, </em><em>optional</em>) – Pre-trained PyTorch neural network model. Required if use_existing=False.</p></li>
+<li><p><strong>loader</strong> (<em>torch.utils.data.DataLoader</em><em>, </em><em>optional</em>) – Data loader containing images and labels, and optionally file paths. Required if use_existing=False.</p></li>
+<li><p><strong>class_dict</strong> (<em>dict</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – A dictionary mapping class indices to class labels. If None, class indices are used as labels.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em><em>, </em><em>optional</em>) – Device (CPU or GPU) on which the computation will be performed. Required if use_existing=False.</p></li>
 <li><p><strong>use_existing</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, use existing CSV if available. If False, always compute new features. Default is False.</p></li>
 <li><p><strong>csv_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to save or load the CSV file. Default is “./features_map.csv”.</p></li>
 <li><p><strong>save_csv</strong> (<em>bool</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – If True, save the resulting DataFrame to a CSV file. If None (default), save only when computing new features.</p></li>
@@ -460,14 +460,15 @@ Expected to be a tuple of (list, int).</p></li>
 <dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>TypeError</strong> – If the provided model is not a PyTorch module or loader not a PyTorch dataloader.</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If use_existing=False and the provided model is not a PyTorch module or loader not a PyTorch dataloader.</p></li>
+<li><p><strong>ValueError</strong> – If use_existing=False and required parameters (model, loader, device) are not provided.</p></li>
+</ul>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>This function computes the average features for images using the provided pre-trained model and data loader.
-The resulting DataFrame includes features, labels, and file paths (if available).
-If use_existing is True and a CSV file exists, it will be loaded instead of computing new features.
-If computing new features, the DataFrame will be saved to csv_path if save_csv is True or None.</p>
+<p>If use_existing=True and the CSV file exists, it will be loaded without using other parameters.
+If use_existing=False, new features will be computed using the provided model and loader.</p>
 </dd></dl>
 
 <dl class="py function">
