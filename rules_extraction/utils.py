@@ -1,13 +1,22 @@
+import os
+
 import numpy as np
 import pandas as pd
 import torch
 import torch.utils.data
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import _tree
-import os
 
 
-def compute_avg_features(model, loader, class_dict, device, use_existing=False, save_csv=None, csv_path="./features_map.csv"):
+def compute_avg_features(
+    model,
+    loader,
+    class_dict,
+    device,
+    use_existing=False,
+    save_csv=None,
+    csv_path="./features_map.csv",
+):
     """
     Compute average features for images using a pre-trained PyTorch model.
 
