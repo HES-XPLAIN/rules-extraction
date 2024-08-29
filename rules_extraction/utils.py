@@ -61,7 +61,9 @@ def compute_avg_features(
 
     if not use_existing:
         if model is None or loader is None or device is None:
-            raise ValueError("model, loader, and device are required when use_existing=False")
+            raise ValueError(
+                "model, loader, and device are required when use_existing=False"
+            )
 
         if not is_torch_model(model):
             raise TypeError("The provided object should be a PyTorch module.")
